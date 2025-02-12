@@ -1,28 +1,47 @@
 ---
-title: "ad688-employability-sp25A1-group3"
+title: "Job Market Analysis 2025"
 author: "Edwin Leck"
 date: "2025-02-11"
 format:
   html:
     theme: journal
     toc: true
+    bibliography: references.bib
+    csl: csl/econometrica.csl
 ---
 
-# Introduction and Research Rationale: Salary & Compensation Trends  
+## Research Introduction: Salary & Compensation Trends  
+
+This project explores **Salary & Compensation Trends** in 2024, focusing on how wages vary across different careers, industries, and job types. As advancements in **Artificial Intelligence (AI)** continue to reshape the job market, understanding salary trends has become crucial for both professionals and organizations. My research aims to uncover key insights into how AI-related jobs compare to traditional careers in terms of compensation, regional salary differences, and the impact of remote work on wages.
 
 ## Why is this topic important?  
-Salary and compensation trends are a critical area of study as they reflect the evolving dynamics of the global workforce, economic priorities, and technological advancements. Understanding how salaries differ across AI and non-AI careers, regional disparities, and the impact of remote work on compensation provides valuable insights for job seekers, employers, policymakers, and educators. This research is particularly relevant in 2024, as the rapid adoption of AI technologies continues to reshape industries, creating new opportunities while disrupting traditional career paths.  
+Salary and compensation trends are a critical area of study as they reflect the evolving dynamics of the global workforce, economic priorities, and technological advancements. Understanding how salaries differ across AI and non-AI careers, regional disparities, and the impact of remote work on compensation provides valuable insights for job seekers, employers, policymakers, and educators. This research is particularly relevant in 2025, as the rapid adoption of AI technologies continues to reshape industries, creating new opportunities while disrupting traditional career paths.  
 
-## What trends make this a crucial area of study in 2024?  
+## What trends make this a crucial area of study in 2025?  
 - **AI-Driven Economic Shifts**: The integration of AI into various industries has led to the creation of high-paying AI-related roles, while simultaneously displacing or transforming traditional jobs. This has created a significant disparity in compensation between AI and non-AI careers.  
 - **Remote Work Revolution**: The post-pandemic era has solidified remote work as a mainstream option, with companies offering competitive salaries to attract global talent. This trend has also raised questions about whether remote jobs are better paying than in-office roles.  
 - **Regional Wage Disparities**: Certain regions, such as Silicon Valley in the U.S. or tech hubs in Europe and Asia, are known for offering higher salaries in AI-related fields. Understanding these regional differences is crucial for global workforce mobility and talent acquisition strategies.  
-- **Industry-Specific Wage Growth**: In 2024, industries like healthcare, renewable energy, and technology have seen significant wage growth due to increased demand for skilled professionals. Analyzing these trends helps identify which sectors are thriving and why.  
+- **Industry-Specific Wage Growth**: In 2025, industries like healthcare, renewable energy, and technology have seen significant wage growth due to increased demand for skilled professionals. Analyzing these trends helps identify which sectors are thriving and why.  
 
-## What do you expect to find in your analysis?  
-1. **Salary Disparities Between AI and Non-AI Careers**: We expect to find that AI-related roles, such as machine learning engineers, data scientists, and AI ethicists, command significantly higher salaries compared to traditional roles in industries like manufacturing or retail.  
-2. **Regional Variations**: Our analysis will likely reveal that regions with a strong tech presence, such as the U.S., Canada, Germany, and China, offer the highest-paying jobs in AI-related fields. In contrast, non-AI careers may show more consistent compensation across regions.  
-3. **Remote vs. In-Office Compensation**: We anticipate that remote jobs, particularly in tech and AI, may offer competitive or even higher salaries compared to in-office roles, as companies leverage remote work to access a global talent pool.  
-4. **Industry-Specific Wage Growth**: We expect industries like healthcare, technology, and renewable energy to show the most significant wage growth in 2024, driven by technological advancements and increased demand for skilled professionals.  
+## What do I expect to find in my analysis?  
+1. **Salary Disparities Between AI and Non-AI Careers**: I expect to find that AI-related roles, such as machine learning engineers, data scientists, and AI ethicists, command significantly higher salaries compared to traditional roles in industries like manufacturing or retail.  
+2. **Regional Variations**: My analysis will likely reveal that regions with a strong tech presence, such as the U.S., Canada, Germany, and China, offer the highest-paying jobs in AI-related fields. In contrast, non-AI careers may show more consistent compensation across regions.  
+3. **Remote vs. In-Office Compensation**: I anticipate that remote jobs, particularly in tech and AI, may offer competitive or even higher salaries compared to in-office roles, as companies leverage remote work to access a global talent pool.  
+4. **Industry-Specific Wage Growth**: I expect industries like healthcare, technology, and renewable energy to show the most significant wage growth in 2025, driven by technological advancements and increased demand for skilled professionals.  
 
-By exploring these questions, this research will provide actionable insights for individuals navigating career choices, employers designing competitive compensation packages, and policymakers addressing workforce challenges in the age of AI.  
+By exploring these questions, this research will provide actionable insights for individuals can position themselves effectively given changes in hiring trends, salaries, AI adoption, remote work, and gender-based employment patterns in the age of AI.  
+
+## Literature Review  
+### 1. Salary Disparities Between AI and Non-AI Careers  
+Research indicates that AI-related roles, such as machine learning engineers, data scientists, and AI ethicists, command significantly higher salaries compared to traditional roles in industries like manufacturing or retail. According to @khan2024salary, the demand for AI professionals has surged due to the rapid adoption of AI technologies across industries, leading to a widening wage gap between AI and non-AI careers. Similarly, @goyal2020ai highlights that the scarcity of skilled AI professionals further drives up their compensation, while traditional roles face stagnation or decline in wages due to automation.  
+
+### 2. Regional Variations in Compensation  
+Regional disparities in compensation are evident, particularly in AI-related fields. Studies such as @zhang2021ai reveal that regions with a strong tech presence, such as the U.S., Canada, Germany, and China, offer the highest-paying jobs in AI-related roles. In contrast, non-AI careers tend to show more consistent compensation across regions, as noted by @huang2024dynamics. This disparity is attributed to the concentration of tech companies and innovation hubs in these regions, which drive demand for AI talent and inflate salaries.  
+
+### 3. Remote vs. In-Office Compensation  
+The rise of remote work has reshaped compensation trends, particularly in tech and AI-related fields. @barrero2023evolution found that remote jobs in these sectors often offer competitive or even higher salaries compared to in-office roles, as companies leverage remote work to access a global talent pool. However, @lund2020s notes that this trend varies by industry, with some sectors maintaining higher pay for in-office roles due to the nature of the work.  
+
+### 4. Industry-Specific Wage Growth in 2025  
+Industries such as healthcare, technology, and renewable energy are expected to show the most significant wage growth in 2025. @sun2025balancing attributes this growth to technological advancements and increased demand for skilled professionals in these sectors. For instance, the integration of AI in healthcare has created new high-paying roles, while the push for sustainability has driven wage growth in renewable energy. @acemoglu2018race further emphasizes that these industries are at the forefront of innovation, making them key drivers of wage growth in the coming years.  
+
+## References  
