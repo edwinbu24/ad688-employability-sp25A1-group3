@@ -1,5 +1,33 @@
 ---
-title: "About"
+title: "About This Site"
+format: html
 ---
 
-About this site
+# About This Site
+
+## Introduction
+
+This project explores **Salary & Compensation Trends** in 2024, focusing on how wages vary across different careers, industries, and job types. As advancements in **Artificial Intelligence (AI)** continue to reshape the job market, understanding salary trends has become crucial for both professionals and organizations. Our research aims to uncover key insights into how AI-related jobs compare to traditional careers in terms of compensation, regional salary differences, and the impact of remote work on wages.
+
+## Research Rationale
+
+### Why is this topic important?
+
+Salary and compensation trends influence career decisions, talent acquisition, and economic policies. As the demand for AI skills increases, organizations are offering competitive salaries to attract top talent. Meanwhile, traditional industries are evolving to remain competitive in a shifting labor market. Understanding these dynamics helps job seekers, employers, and policymakers make informed decisions.
+
+### Key Trends in 2024
+
+- **AI vs. Non-AI Careers**: AI-related roles, such as machine learning engineers and data scientists, have seen rapid salary growth. But how do they compare to traditional roles in finance, healthcare, and engineering?
+- **Regional Differences**: Certain regions, such as Silicon Valley, New York, and Singapore, are known for high-paying tech jobs. However, emerging tech hubs and remote work may be reshaping salary distributions.
+- **Remote vs. In-Office Salaries**: As hybrid work becomes the norm, are companies offering higher pay for remote positions, or do in-office roles still hold the edge?
+- **Industry-Wide Wage Growth**: In 2024, industries like healthcare, finance, and AI-driven startups have seen significant wage adjustments. Which sectors are leading this trend?
+
+## Expected Findings
+
+Through our analysis, we aim to answer the following questions:
+- How do AI salaries compare to those in traditional careers?
+- Which regions offer the highest-paying jobs in AI and non-AI fields?
+- Are remote jobs paying better than in-office roles?
+- What industries experienced the most significant wage growth in 2024?
+
+By addressing these questions, this project will provide valuable insights into salary dynamics, helping individuals and organizations navigate the evolving job market.

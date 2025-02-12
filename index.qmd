@@ -1,11 +1,28 @@
 ---
 title: "ad688-employability-sp25A1-group3"
 author: "Edwin Leck"
-date: "2025-11-02"
+date: "2025-02-11"
 format:
   html:
     theme: journal
     toc: true
 ---
 
-This is my website.
+# Introduction and Research Rationale: Salary & Compensation Trends  
+
+## Why is this topic important?  
+Salary and compensation trends are a critical area of study as they reflect the evolving dynamics of the global workforce, economic priorities, and technological advancements. Understanding how salaries differ across AI and non-AI careers, regional disparities, and the impact of remote work on compensation provides valuable insights for job seekers, employers, policymakers, and educators. This research is particularly relevant in 2024, as the rapid adoption of AI technologies continues to reshape industries, creating new opportunities while disrupting traditional career paths.  
+
+## What trends make this a crucial area of study in 2024?  
+- **AI-Driven Economic Shifts**: The integration of AI into various industries has led to the creation of high-paying AI-related roles, while simultaneously displacing or transforming traditional jobs. This has created a significant disparity in compensation between AI and non-AI careers.  
+- **Remote Work Revolution**: The post-pandemic era has solidified remote work as a mainstream option, with companies offering competitive salaries to attract global talent. This trend has also raised questions about whether remote jobs are better paying than in-office roles.  
+- **Regional Wage Disparities**: Certain regions, such as Silicon Valley in the U.S. or tech hubs in Europe and Asia, are known for offering higher salaries in AI-related fields. Understanding these regional differences is crucial for global workforce mobility and talent acquisition strategies.  
+- **Industry-Specific Wage Growth**: In 2024, industries like healthcare, renewable energy, and technology have seen significant wage growth due to increased demand for skilled professionals. Analyzing these trends helps identify which sectors are thriving and why.  
+
+## What do you expect to find in your analysis?  
+1. **Salary Disparities Between AI and Non-AI Careers**: We expect to find that AI-related roles, such as machine learning engineers, data scientists, and AI ethicists, command significantly higher salaries compared to traditional roles in industries like manufacturing or retail.  
+2. **Regional Variations**: Our analysis will likely reveal that regions with a strong tech presence, such as the U.S., Canada, Germany, and China, offer the highest-paying jobs in AI-related fields. In contrast, non-AI careers may show more consistent compensation across regions.  
+3. **Remote vs. In-Office Compensation**: We anticipate that remote jobs, particularly in tech and AI, may offer competitive or even higher salaries compared to in-office roles, as companies leverage remote work to access a global talent pool.  
+4. **Industry-Specific Wage Growth**: We expect industries like healthcare, technology, and renewable energy to show the most significant wage growth in 2024, driven by technological advancements and increased demand for skilled professionals.  
+
+By exploring these questions, this research will provide actionable insights for individuals navigating career choices, employers designing competitive compensation packages, and policymakers addressing workforce challenges in the age of AI.  
