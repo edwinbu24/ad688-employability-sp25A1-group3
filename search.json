@@ -137,6 +137,69 @@
     "href": "data_analysis.html",
     "title": "Data Analysis",
     "section": "",
-    "text": "# Import necessary libraries\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nimport plotly.express as px\nimport missingno as msno\n\n# Load the dataset \ndf = pd.read_csv('data/lightcast_job_postings.csv')\n\n# Dropping unnecessary columns\ncolumns_to_drop = [\n    \"ID\", \"URL\", \"ACTIVE_URLS\", \"DUPLICATES\", \"LAST_UPDATED_TIMESTAMP\",\n    \"NAICS2\", \"NAICS3\", \"NAICS4\", \"NAICS5\", \"NAICS6\",\n    \"SOC_2\", \"SOC_3\", \"SOC_5\"\n]\ndf.drop(columns=columns_to_drop, inplace=True)\n\n# Visualize missing data\nmsno.heatmap(df)\nplt.title(\"Missing Values Heatmap\")\nplt.savefig(\"./figures/missing_values_heatmap.png\", dpi=300)  # Save the figure\nplt.show()\n\n\n\n\nMissing Values Heatmap\n\n\n\n# Handle missing values for \"SALARY\"\nif \"SALARY\" in df.columns:\n    df[\"SALARY\"].fillna(df[\"SALARY\"].median(), inplace=True)\nelse:\n    print(\"Error: 'SALARY_TO' column not found in the dataset.\")\n\n# Handle missing values for \"INDUSTRY\"\nif \"NAICS_2022_6_NAME\" in df.columns:\n    df[\"NAICS_2022_6_NAME\"].fillna(\"Unknown\", inplace=True)\nelse:\n    print(\"Error: 'NAICS_2022_6_NAME' column not found in the dataset.\")\n\n# Display the number of missing values after handling\ndf.isnull().sum()\n\ndf = df.drop_duplicates(subset=[\"TITLE\", \"COMPANY\", \"LOCATION\", \"POSTED\"], keep=\"first\")\n\n# Display the number of rows after removing duplicates\ndf.head()\n\n\n# Job postings by industry\nindustry_counts = df[\"NAICS_2022_6_NAME\"].value_counts().reset_index()\nindustry_counts.columns = [\"Industry\", \"Count\"]\n\n# Exclude industries with 0 counts\nindustry_counts = industry_counts[industry_counts[\"Count\"] &gt; 0]\n\n# Create the bar chart\nfig = px.bar(industry_counts, x=\"Industry\", y=\"Count\", title=\"Job Postings by Industry\")\n\nfig.write_html(\"./figures/job_postings_by_industry.html\")\n\nfig.show()\n\n\n\n\nfig = px.box(df, x=\"NAICS_2022_6_NAME\", y=\"SALARY\", title=\"Salary Distribution by Industry\")\n\nfig.write_html(\"./figures/salary_distribution_by_industry.html\")  # Save the figure\n\nfig.show()\n\n\n\n\n# Remote vs. on-site jobs\nremote_counts = df[\"REMOTE_TYPE_NAME\"].value_counts().reset_index()\nremote_counts.columns = [\"Remote Type\", \"Count\"]\n\n# Save the figure as HTML (Plotly)\nfig = px.pie(remote_counts, names=\"Remote Type\", values=\"Count\", title=\"Remote vs. On-Site Jobs\")\nfig.write_html(\"./figures/remote_vs_onsite_jobs.html\")\n\n# Display the figure\nfig.show()"
+    "text": "# Import necessary libraries\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nimport plotly.express as px\nimport missingno as msno\n\n# Load the dataset \ndf = pd.read_csv('data/lightcast_job_postings.csv')\n\n# Dropping unnecessary columns\ncolumns_to_drop = [\n    \"ID\", \"URL\", \"ACTIVE_URLS\", \"DUPLICATES\", \"LAST_UPDATED_TIMESTAMP\",\n    \"NAICS2\", \"NAICS3\", \"NAICS4\", \"NAICS5\", \"NAICS6\",\n    \"SOC_2\", \"SOC_3\", \"SOC_5\"\n]\ndf.drop(columns=columns_to_drop, inplace=True)\n\n# Visualize missing data\nmsno.heatmap(df)\nplt.title(\"Missing Values Heatmap\")\nplt.savefig(\"./figures/missing_values_heatmap.png\", dpi=300)  # Save the figure\nplt.show()\n# Handle missing values for \"SALARY\"\nif \"SALARY\" in df.columns:\n    df[\"SALARY\"].fillna(df[\"SALARY\"].median(), inplace=True)\nelse:\n    print(\"Error: 'SALARY_TO' column not found in the dataset.\")\n\n# Handle missing values for \"INDUSTRY\"\nif \"NAICS_2022_2_NAME\" in df.columns:\n    df[\"NAICS_2022_2_NAME\"].fillna(\"Unknown\", inplace=True)\nelse:\n    print(\"Error: 'NAICS_2022_2_NAME' column not found in the dataset.\")\n\n# Display the number of missing values after handling\ndf.isnull().sum()\n\ndf = df.drop_duplicates(subset=[\"TITLE\", \"COMPANY\", \"LOCATION\", \"POSTED\"], keep=\"first\")\n\n# Display the number of rows after removing duplicates\ndf.head()\n# Job postings by industry\nindustry_counts = df[\"NAICS_2022_2_NAME\"].value_counts().reset_index()\nindustry_counts.columns = [\"Industry\", \"Count\"]\n\n# Exclude industries with less than 100 counts\nindustry_counts = industry_counts[industry_counts[\"Count\"] &gt; 0]\n\n# Create the bar chart\nfig = px.bar(industry_counts, x=\"Industry\", y=\"Count\", title=\"Job Postings by Industry\")\n\nfig.write_html(\"./figures/job_postings_by_industry.html\")\n\nfig.show()"
+  },
+  {
+    "objectID": "data_analysis.html#key-insights",
+    "href": "data_analysis.html#key-insights",
+    "title": "Data Analysis",
+    "section": "1.2 Key Insights",
+    "text": "1.2 Key Insights\n\nHigh-Demand Industries: Industries like professional services, manufacturing, and healthcare are actively hiring, indicating strong demand in these sectors.\nDiverse Opportunities: The presence of job postings across a wide range of industries (e.g., retail, education, finance) suggests a diverse job market.\nUnclassified Industry: The significant number of job postings in the “Unclassified Industry” category may require further investigation to understand the nature of these roles."
+  },
+  {
+    "objectID": "data_analysis.html#recommendations",
+    "href": "data_analysis.html#recommendations",
+    "title": "Data Analysis",
+    "section": "1.3 Recommendations",
+    "text": "1.3 Recommendations\n\nFocus on High-Demand Sectors: Job seekers should prioritize industries with the highest number of job postings, such as professional services, manufacturing, and healthcare.\nExplore Unclassified Roles: Investigate the “Unclassified Industry” category to identify potential opportunities that may not fit into traditional industry classifications.\n\n\nfig = px.box(df, x=\"NAICS_2022_2_NAME\", y=\"SALARY\", title=\"Salary Distribution by Industry\")\n\nfig.write_html(\"./figures/salary_distribution_by_industry.html\")  # Save the figure\n\nfig.show()"
+  },
+  {
+    "objectID": "data_analysis.html#observations",
+    "href": "data_analysis.html#observations",
+    "title": "Data Analysis",
+    "section": "1.1 Observations",
+    "text": "1.1 Observations\n\nThe bar chart shows the distribution of job postings across various industries.\nIndustries like “Professional, Scientific, and Technical Services”, “Manufacturing”, and “Health Care and Social Assistance” have the highest number of job postings.\nOther industries, such as “Retail Trade”, “Educational Services”, and “Finance and Insurance”, also show significant job postings but are less prominent compared to the top industries.\nThe “Unclassified Industry” category has a noticeable number of job postings, which may represent miscellaneous or undefined sectors."
+  },
+  {
+    "objectID": "data_analysis.html#observations-1",
+    "href": "data_analysis.html#observations-1",
+    "title": "Data Analysis",
+    "section": "2.1 Observations",
+    "text": "2.1 Observations\n\nThe box plot shows the salary distribution across industries.\nIndustries like “Utilities”, “Mining, Quarrying, and Oil and Gas Extraction”, and “Finance and Insurance” likely have higher median salaries.\nIndustries such as “Accommodation and Food Services”, “Retail Trade”, and “Arts, Entertainment, and Recreation” tend to have lower median salaries."
+  },
+  {
+    "objectID": "data_analysis.html#key-insights-1",
+    "href": "data_analysis.html#key-insights-1",
+    "title": "Data Analysis",
+    "section": "2.2 Key Insights",
+    "text": "2.2 Key Insights\n\nHigh-Paying Industries: Industries like utilities, mining, and finance offer higher salaries, likely due to the specialized skills and expertise required.\nLow-Paying Industries: Sectors like accommodation and food services, retail trade, and arts and entertainment have lower salaries, which may reflect the nature of the work and the skill levels required.\nSalary Disparities: There is a noticeable disparity in salaries across industries, with some offering significantly higher compensation than others."
+  },
+  {
+    "objectID": "data_analysis.html#recommendations-1",
+    "href": "data_analysis.html#recommendations-1",
+    "title": "Data Analysis",
+    "section": "2.3 Recommendations",
+    "text": "2.3 Recommendations\n\nTarget High-Paying Sectors: Job seekers looking for higher salaries should focus on industries like utilities, mining, and finance.\nExplore Salary Trends: Further analyze salary trends within specific industries to identify roles with the highest earning potential.\n\n\n# Remote vs. on-site jobs\nremote_counts = df[\"REMOTE_TYPE_NAME\"].value_counts().reset_index()\nremote_counts.columns = [\"Remote Type\", \"Count\"]\n\n# Save the figure as HTML (Plotly)\nfig = px.pie(remote_counts, names=\"Remote Type\", values=\"Count\", title=\"Remote vs. On-Site Jobs\")\nfig.write_html(\"./figures/remote_vs_onsite_jobs.html\")\n\n# Display the figure\nfig.show()"
+  },
+  {
+    "objectID": "data_analysis.html#observations-2",
+    "href": "data_analysis.html#observations-2",
+    "title": "Data Analysis",
+    "section": "3.1 Observations",
+    "text": "3.1 Observations\n\nThe pie chart shows the distribution of job types:\n\nNot Remote: 78.3%\nRemote: 3.11%\nHybrid Remote: 1.58%\nNone: 17%\n\nThe vast majority of jobs are not remote, indicating a strong preference for on-site work.\nRemote and hybrid remote jobs make up a small fraction of the total job postings."
+  },
+  {
+    "objectID": "data_analysis.html#key-insights-2",
+    "href": "data_analysis.html#key-insights-2",
+    "title": "Data Analysis",
+    "section": "3.2 Key Insights",
+    "text": "3.2 Key Insights\n\nOn-Site Dominance: The job market is still heavily skewed toward on-site work, with only a small percentage of roles offering remote or hybrid options.\nLimited Remote Opportunities: Remote and hybrid roles are still niche, suggesting that companies may not yet fully embrace flexible work arrangements.\nAmbiguity in “None” Category: The 17% labeled as “None” is unclear and may represent roles where the work arrangement is unspecified."
+  },
+  {
+    "objectID": "data_analysis.html#recommendations-2",
+    "href": "data_analysis.html#recommendations-2",
+    "title": "Data Analysis",
+    "section": "3.3 Recommendations",
+    "text": "3.3 Recommendations\n\nExpress Willingness to Work On-Site: Job-seekers looking to join companies may consider expressing willingness to work on site , as these are still largely represented in the job market."
   }
 ]

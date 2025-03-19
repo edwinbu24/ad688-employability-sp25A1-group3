@@ -57,10 +57,10 @@ else:
     print("Error: 'SALARY_TO' column not found in the dataset.")
 
 # Handle missing values for "INDUSTRY"
-if "NAICS_2022_6_NAME" in df.columns:
-    df["NAICS_2022_6_NAME"].fillna("Unknown", inplace=True)
+if "NAICS_2022_2_NAME" in df.columns:
+    df["NAICS_2022_2_NAME"].fillna("Unknown", inplace=True)
 else:
-    print("Error: 'NAICS_2022_6_NAME' column not found in the dataset.")
+    print("Error: 'NAICS_2022_2_NAME' column not found in the dataset.")
 
 # Display the number of missing values after handling
 df.isnull().sum()
@@ -73,10 +73,10 @@ df.head()
 
 ```{python}
 # Job postings by industry
-industry_counts = df["NAICS_2022_6_NAME"].value_counts().reset_index()
+industry_counts = df["NAICS_2022_2_NAME"].value_counts().reset_index()
 industry_counts.columns = ["Industry", "Count"]
 
-# Exclude industries with 0 counts
+# Exclude industries with less than 100 counts
 industry_counts = industry_counts[industry_counts["Count"] > 0]
 
 # Create the bar chart
@@ -88,8 +88,24 @@ fig.show()
 ```
 <iframe src="./figures/job_postings_by_industry.html" width="100%" height="500px"></iframe>
 
+# Job Postings by Industry 
+## Observations
+- The bar chart shows the distribution of job postings across various industries.
+- Industries like "Professional, Scientific, and Technical Services", "Manufacturing", and "Health Care and Social Assistance" have the highest number of job postings.
+- Other industries, such as "Retail Trade", "Educational Services", and "Finance and Insurance", also show significant job postings but are less prominent compared to the top industries.
+- The "Unclassified Industry" category has a noticeable number of job postings, which may represent miscellaneous or undefined sectors.
+
+## Key Insights
+- High-Demand Industries: Industries like professional services, manufacturing, and healthcare are actively hiring, indicating strong demand in these sectors.
+- Diverse Opportunities: The presence of job postings across a wide range of industries (e.g., retail, education, finance) suggests a diverse job market.
+- Unclassified Industry: The significant number of job postings in the "Unclassified Industry" category may require further investigation to understand the nature of these roles.
+
+## Recommendations
+- Focus on High-Demand Sectors: Job seekers should prioritize industries with the highest number of job postings, such as professional services, manufacturing, and healthcare.
+- Explore Unclassified Roles: Investigate the "Unclassified Industry" category to identify potential opportunities that may not fit into traditional industry classifications.
+
 ```{python}
-fig = px.box(df, x="NAICS_2022_6_NAME", y="SALARY", title="Salary Distribution by Industry")
+fig = px.box(df, x="NAICS_2022_2_NAME", y="SALARY", title="Salary Distribution by Industry")
 
 fig.write_html("./figures/salary_distribution_by_industry.html")  # Save the figure
 
@@ -97,6 +113,21 @@ fig.show()
 
 ```
 <iframe src="./figures/salary_distribution_by_industry.html" width="100%" height="500px"></iframe>
+
+# Salary Distribution by Industry
+## Observations
+- The box plot shows the salary distribution across industries.
+- Industries like "Utilities", "Mining, Quarrying, and Oil and Gas Extraction", and "Finance and Insurance" likely have higher median salaries.
+- Industries such as "Accommodation and Food Services", "Retail Trade", and "Arts, Entertainment, and Recreation" tend to have lower median salaries.
+
+## Key Insights
+- High-Paying Industries: Industries like utilities, mining, and finance offer higher salaries, likely due to the specialized skills and expertise required.
+- Low-Paying Industries: Sectors like accommodation and food services, retail trade, and arts and entertainment have lower salaries, which may reflect the nature of the work and the skill levels required.
+- Salary Disparities: There is a noticeable disparity in salaries across industries, with some offering significantly higher compensation than others.
+
+## Recommendations
+- Target High-Paying Sectors: Job seekers looking for higher salaries should focus on industries like utilities, mining, and finance.
+- Explore Salary Trends: Further analyze salary trends within specific industries to identify roles with the highest earning potential.
 
 ```{python}
 # Remote vs. on-site jobs
@@ -111,3 +142,21 @@ fig.write_html("./figures/remote_vs_onsite_jobs.html")
 fig.show()
 ```
 <iframe src="./figures/remote_vs_onsite_jobs.html" width="100%" height="500px"></iframe>
+
+# Remote vs. On-Site Jobs
+## Observations
+- The pie chart shows the distribution of job types:
+  - Not Remote: 78.3%
+  - Remote: 3.11%
+  - Hybrid Remote: 1.58%
+  - None: 17%
+- The vast majority of jobs are not remote, indicating a strong preference for on-site work.
+- Remote and hybrid remote jobs make up a small fraction of the total job postings.
+
+## Key Insights
+- On-Site Dominance: The job market is still heavily skewed toward on-site work, with only a small percentage of roles offering remote or hybrid options.
+- Limited Remote Opportunities: Remote and hybrid roles are still niche, suggesting that companies may not yet fully embrace flexible work arrangements.
+- Ambiguity in "None" Category: The 17% labeled as "None" is unclear and may represent roles where the work arrangement is unspecified.
+
+## Recommendations
+- Express Willingness to Work On-Site: Job-seekers looking to join companies may consider expressing willingness to work on site , as these are still largely represented in the job market.

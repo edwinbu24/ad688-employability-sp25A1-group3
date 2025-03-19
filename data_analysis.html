@@ -146,8 +146,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#job-postings-by-industry" id="toc-job-postings-by-industry" class="nav-link active" data-scroll-target="#job-postings-by-industry"><span class="header-section-number">1</span> Job Postings by Industry</a>
+  <ul class="collapse">
+  <li><a href="#observations" id="toc-observations" class="nav-link" data-scroll-target="#observations"><span class="header-section-number">1.1</span> Observations</a></li>
+  <li><a href="#key-insights" id="toc-key-insights" class="nav-link" data-scroll-target="#key-insights"><span class="header-section-number">1.2</span> Key Insights</a></li>
+  <li><a href="#recommendations" id="toc-recommendations" class="nav-link" data-scroll-target="#recommendations"><span class="header-section-number">1.3</span> Recommendations</a></li>
+  </ul></li>
+  <li><a href="#salary-distribution-by-industry" id="toc-salary-distribution-by-industry" class="nav-link" data-scroll-target="#salary-distribution-by-industry"><span class="header-section-number">2</span> Salary Distribution by Industry</a>
+  <ul class="collapse">
+  <li><a href="#observations-1" id="toc-observations-1" class="nav-link" data-scroll-target="#observations-1"><span class="header-section-number">2.1</span> Observations</a></li>
+  <li><a href="#key-insights-1" id="toc-key-insights-1" class="nav-link" data-scroll-target="#key-insights-1"><span class="header-section-number">2.2</span> Key Insights</a></li>
+  <li><a href="#recommendations-1" id="toc-recommendations-1" class="nav-link" data-scroll-target="#recommendations-1"><span class="header-section-number">2.3</span> Recommendations</a></li>
+  </ul></li>
+  <li><a href="#remote-vs.-on-site-jobs" id="toc-remote-vs.-on-site-jobs" class="nav-link" data-scroll-target="#remote-vs.-on-site-jobs"><span class="header-section-number">3</span> Remote vs.&nbsp;On-Site Jobs</a>
+  <ul class="collapse">
+  <li><a href="#observations-2" id="toc-observations-2" class="nav-link" data-scroll-target="#observations-2"><span class="header-section-number">3.1</span> Observations</a></li>
+  <li><a href="#key-insights-2" id="toc-key-insights-2" class="nav-link" data-scroll-target="#key-insights-2"><span class="header-section-number">3.2</span> Key Insights</a></li>
+  <li><a href="#recommendations-2" id="toc-recommendations-2" class="nav-link" data-scroll-target="#recommendations-2"><span class="header-section-number">3.3</span> Recommendations</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -185,7 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="5639b2fc" class="cell" data-message="false" data-execution_count="1">
+<div id="12788c5b" class="cell" data-message="false" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import necessary libraries</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -217,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Missing Values Heatmap</figcaption>
 </figure>
 </div>
-<div id="b390f5e2" class="cell" data-execution_count="2">
+<div id="fd951ea5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Handle missing values for "SALARY"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"SALARY"</span> <span class="kw">in</span> df.columns:</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"SALARY"</span>].fillna(df[<span class="st">"SALARY"</span>].median(), inplace<span class="op">=</span><span class="va">True</span>)</span>
@@ -225,10 +248,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Error: 'SALARY_TO' column not found in the dataset."</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Handle missing values for "INDUSTRY"</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"NAICS_2022_6_NAME"</span> <span class="kw">in</span> df.columns:</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"NAICS_2022_6_NAME"</span>].fillna(<span class="st">"Unknown"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"NAICS_2022_2_NAME"</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"NAICS_2022_2_NAME"</span>].fillna(<span class="st">"Unknown"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Error: 'NAICS_2022_6_NAME' column not found in the dataset."</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Error: 'NAICS_2022_2_NAME' column not found in the dataset."</span>)</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the number of missing values after handling</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()</span>
@@ -238,12 +261,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the number of rows after removing duplicates</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="47ccfdbc" class="cell" data-execution_count="3">
+<div id="408a24d7" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Job postings by industry</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>industry_counts <span class="op">=</span> df[<span class="st">"NAICS_2022_6_NAME"</span>].value_counts().reset_index()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>industry_counts <span class="op">=</span> df[<span class="st">"NAICS_2022_2_NAME"</span>].value_counts().reset_index()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>industry_counts.columns <span class="op">=</span> [<span class="st">"Industry"</span>, <span class="st">"Count"</span>]</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude industries with 0 counts</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude industries with less than 100 counts</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>industry_counts <span class="op">=</span> industry_counts[industry_counts[<span class="st">"Count"</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the bar chart</span></span>
@@ -255,8 +278,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <iframe src="./figures/job_postings_by_industry.html" width="100%" height="500px">
 </iframe>
-<div id="ace41467" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.box(df, x<span class="op">=</span><span class="st">"NAICS_2022_6_NAME"</span>, y<span class="op">=</span><span class="st">"SALARY"</span>, title<span class="op">=</span><span class="st">"Salary Distribution by Industry"</span>)</span>
+<section id="job-postings-by-industry" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Job Postings by Industry</h1>
+<section id="observations" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="observations"><span class="header-section-number">1.1</span> Observations</h2>
+<ul>
+<li>The bar chart shows the distribution of job postings across various industries.</li>
+<li>Industries like “Professional, Scientific, and Technical Services”, “Manufacturing”, and “Health Care and Social Assistance” have the highest number of job postings.</li>
+<li>Other industries, such as “Retail Trade”, “Educational Services”, and “Finance and Insurance”, also show significant job postings but are less prominent compared to the top industries.</li>
+<li>The “Unclassified Industry” category has a noticeable number of job postings, which may represent miscellaneous or undefined sectors.</li>
+</ul>
+</section>
+<section id="key-insights" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="key-insights"><span class="header-section-number">1.2</span> Key Insights</h2>
+<ul>
+<li>High-Demand Industries: Industries like professional services, manufacturing, and healthcare are actively hiring, indicating strong demand in these sectors.</li>
+<li>Diverse Opportunities: The presence of job postings across a wide range of industries (e.g., retail, education, finance) suggests a diverse job market.</li>
+<li>Unclassified Industry: The significant number of job postings in the “Unclassified Industry” category may require further investigation to understand the nature of these roles.</li>
+</ul>
+</section>
+<section id="recommendations" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="recommendations"><span class="header-section-number">1.3</span> Recommendations</h2>
+<ul>
+<li>Focus on High-Demand Sectors: Job seekers should prioritize industries with the highest number of job postings, such as professional services, manufacturing, and healthcare.</li>
+<li>Explore Unclassified Roles: Investigate the “Unclassified Industry” category to identify potential opportunities that may not fit into traditional industry classifications.</li>
+</ul>
+<div id="6dc28543" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.box(df, x<span class="op">=</span><span class="st">"NAICS_2022_2_NAME"</span>, y<span class="op">=</span><span class="st">"SALARY"</span>, title<span class="op">=</span><span class="st">"Salary Distribution by Industry"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/salary_distribution_by_industry.html"</span>)  <span class="co"># Save the figure</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -264,7 +312,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <iframe src="./figures/salary_distribution_by_industry.html" width="100%" height="500px">
 </iframe>
-<div id="232b08fc" class="cell" data-execution_count="5">
+</section>
+</section>
+<section id="salary-distribution-by-industry" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Salary Distribution by Industry</h1>
+<section id="observations-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="observations-1"><span class="header-section-number">2.1</span> Observations</h2>
+<ul>
+<li>The box plot shows the salary distribution across industries.</li>
+<li>Industries like “Utilities”, “Mining, Quarrying, and Oil and Gas Extraction”, and “Finance and Insurance” likely have higher median salaries.</li>
+<li>Industries such as “Accommodation and Food Services”, “Retail Trade”, and “Arts, Entertainment, and Recreation” tend to have lower median salaries.</li>
+</ul>
+</section>
+<section id="key-insights-1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="key-insights-1"><span class="header-section-number">2.2</span> Key Insights</h2>
+<ul>
+<li>High-Paying Industries: Industries like utilities, mining, and finance offer higher salaries, likely due to the specialized skills and expertise required.</li>
+<li>Low-Paying Industries: Sectors like accommodation and food services, retail trade, and arts and entertainment have lower salaries, which may reflect the nature of the work and the skill levels required.</li>
+<li>Salary Disparities: There is a noticeable disparity in salaries across industries, with some offering significantly higher compensation than others.</li>
+</ul>
+</section>
+<section id="recommendations-1" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="recommendations-1"><span class="header-section-number">2.3</span> Recommendations</h2>
+<ul>
+<li>Target High-Paying Sectors: Job seekers looking for higher salaries should focus on industries like utilities, mining, and finance.</li>
+<li>Explore Salary Trends: Further analyze salary trends within specific industries to identify roles with the highest earning potential.</li>
+</ul>
+<div id="fb0a3b4c" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote vs. on-site jobs</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>remote_counts <span class="op">=</span> df[<span class="st">"REMOTE_TYPE_NAME"</span>].value_counts().reset_index()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>remote_counts.columns <span class="op">=</span> [<span class="st">"Remote Type"</span>, <span class="st">"Count"</span>]</span>
@@ -278,8 +352,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <iframe src="./figures/remote_vs_onsite_jobs.html" width="100%" height="500px">
 </iframe>
+</section>
+</section>
+<section id="remote-vs.-on-site-jobs" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Remote vs.&nbsp;On-Site Jobs</h1>
+<section id="observations-2" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="observations-2"><span class="header-section-number">3.1</span> Observations</h2>
+<ul>
+<li>The pie chart shows the distribution of job types:
+<ul>
+<li>Not Remote: 78.3%</li>
+<li>Remote: 3.11%</li>
+<li>Hybrid Remote: 1.58%</li>
+<li>None: 17%</li>
+</ul></li>
+<li>The vast majority of jobs are not remote, indicating a strong preference for on-site work.</li>
+<li>Remote and hybrid remote jobs make up a small fraction of the total job postings.</li>
+</ul>
+</section>
+<section id="key-insights-2" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="key-insights-2"><span class="header-section-number">3.2</span> Key Insights</h2>
+<ul>
+<li>On-Site Dominance: The job market is still heavily skewed toward on-site work, with only a small percentage of roles offering remote or hybrid options.</li>
+<li>Limited Remote Opportunities: Remote and hybrid roles are still niche, suggesting that companies may not yet fully embrace flexible work arrangements.</li>
+<li>Ambiguity in “None” Category: The 17% labeled as “None” is unclear and may represent roles where the work arrangement is unspecified.</li>
+</ul>
+</section>
+<section id="recommendations-2" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="recommendations-2"><span class="header-section-number">3.3</span> Recommendations</h2>
+<ul>
+<li>Express Willingness to Work On-Site: Job-seekers looking to join companies may consider expressing willingness to work on site , as these are still largely represented in the job market.</li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
