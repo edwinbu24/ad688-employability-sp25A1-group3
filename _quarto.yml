@@ -19,3 +19,8 @@ format:
       - brand
     css: styles.css
     toc: true
+
+execute:
+  echo: true
+  eval: false
+  code-fold: true
