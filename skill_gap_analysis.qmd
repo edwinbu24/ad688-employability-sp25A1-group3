@@ -79,7 +79,7 @@ def extract_skills_list(skills_str):
     except:
         return []
 
-# Extract and count all skills
+# Extract and count all skill
 all_skills = []
 for skills_str in it_jobs['SOFTWARE_SKILLS_NAME']:
     all_skills.extend(extract_skills_list(skills_str))
