@@ -243,5 +243,54 @@
     "title": "Data Analysis",
     "section": "3.5 Strategic Recommendation:",
     "text": "3.5 Strategic Recommendation:\n\nJob seekers should:\n\nTarget Information/Finance for fully remote roles.\nConsider hybrid in Administrative/Support for balance.\nVerify “None” postings directly with employers for hidden flexibility."
+  },
+  {
+    "objectID": "skill_gap_analysis.html",
+    "href": "skill_gap_analysis.html",
+    "title": "Skill Gap Analysis",
+    "section": "",
+    "text": "Code\n# 1. Create Team Skill DataFrame\nimport pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nfrom collections import Counter\n\n# Team member skills (using fictitious names since I am the only member)\nskills_data = {\n    \"Name\": [\"Yan\", \"Zhen\", \"Edwin\", \"Leck\"],\n    \"Python\": [5, 3, 4, 2],\n    \"SQL\": [4, 2, 5, 3],\n    \"Machine Learning\": [3, 1, 4, 2],\n    \"Cloud Computing\": [2, 2, 3, 1],\n    \"Docker\": [0, 1, 2, 0],\n    \"AWS\": [1, 0, 3, 0]\n}\n\ndf_skills = pd.DataFrame(skills_data)\ndf_skills.set_index(\"Name\", inplace=True)\n\n# 2. Visualize Team Skills\nplt.figure(figsize=(10, 6))\nsns.heatmap(df_skills, annot=True, cmap=\"YlGnBu\", \n            vmin=0, vmax=5, linewidths=0.5,\n            cbar_kws={'label': 'Proficiency Level (1-5)'})\nplt.title(\"Team Skill Proficiency Heatmap\", pad=20)\nplt.xticks(rotation=45)\nplt.tight_layout()\nplt.savefig('./figures/team_skills_heatmap.svg', bbox_inches='tight')\nimport pandas as pd\nimport re\nfrom collections import Counter\n\n# Load the dataset\ndf = pd.read_csv('data/lightcast_job_postings.csv')\n# Filter for IT/Computer Science jobs\nit_jobs = df[df['LOT_CAREER_AREA_NAME'].isin(['Information Technology and Computer Science'])]\n\n# Function to extract skills from the string format\ndef extract_skills_list(skills_str):\n    if pd.isna(skills_str) or skills_str == '[]':\n        return []\n    try:\n        # Remove brackets and quotes, then split\n        skills = [skill.strip(' \"') for skill in skills_str.strip('[]').split(',')]\n        return [skill for skill in skills if skill]  # Remove empty strings\n    except:\n        return []\n\n# Extract and count all skills\nall_skills = []\nfor skills_str in it_jobs['SOFTWARE_SKILLS_NAME']:\n    all_skills.extend(extract_skills_list(skills_str))\n\n# Tally skills and create a DataFrame\nskill_counts = pd.DataFrame.from_dict(Counter(all_skills), \n                                   orient='index', \n                                   columns=['Count'])\\\n                         .sort_values('Count', ascending=False)\n\n# Display top 15 skills\nprint(f\"Found {len(skill_counts)} unique skills in {len(it_jobs)} IT/Computer Science job postings\")\nskill_counts.head(15)\n# Plot top 15 skills\nplt.figure(figsize=(12, 6))\ntop_skills = skill_counts.head(15)\nsns.barplot(x=top_skills['Count'], y=top_skills.index, palette='viridis')\nplt.title('Top 15 Most Demanded Skills in IT/Computer Science Jobs')\nplt.xlabel('Number of Job Postings')\nplt.ylabel('Skill')\nplt.tight_layout()\nplt.savefig('./figures/top_skills_plot.svg', bbox_inches='tight')\n# Industry skill demands (from job postings)\nindustry_skills = {\n    'SQL': 17090 + 3828,\n    'Python': 11693,\n    'Power BI': 9594,\n    'Tableau': 7556 + 3694,\n    'R': 5502,\n    'Microsoft Azure': 4603,\n    'AWS': 3630,\n    'SAP': 8206 + 3784,\n    'Excel': 8026,\n    'PowerPoint': 6154\n}\n\ndf_industry = pd.DataFrame.from_dict(industry_skills, orient='index', columns=['Industry_Demand'])\n\n# Normalize industry demand for comparison (scale 1-5)\ndf_industry['Industry_Priority'] = pd.cut(\n    df_industry['Industry_Demand'],\n    bins=5,\n    labels=[1, 2, 3, 4, 5]\n).astype(int)\n\n# Calculate team averages\nteam_avg = df_skills.mean().to_frame('Team_Avg')\n\n# Join and handle missing values properly\ngap_df = df_industry.join(team_avg, how='outer')\n\n# Fill missing values (skills we don't have in team)\ngap_df['Team_Avg'] = gap_df['Team_Avg'].fillna(0)  # 0 means no knowledge\ngap_df['Industry_Priority'] = gap_df['Industry_Priority'].fillna(0)  # 0 means not in demand\n\n# Calculate gaps\ngap_df['Gap'] = gap_df['Industry_Priority'] - gap_df['Team_Avg']\n\n# Filter out skills with no industry demand (optional)\ngap_df = gap_df[gap_df['Industry_Priority'] &gt; 0]\n\n# Visualize the gaps\nplt.figure(figsize=(12, 6))\ngap_df.sort_values('Gap', ascending=False).plot(\n    kind='bar',\n    y=['Industry_Priority', 'Team_Avg'],\n    title='Skill Gaps: Industry Priority vs Team Proficiency',\n    color=['#1f77b4', '#ff7f0e']\n)\nplt.ylabel('Priority/Proficiency Level (1-5)')\nplt.xticks(rotation=45)\nplt.tight_layout()\nplt.savefig('./figures/skills_gap_plot.svg', bbox_inches='tight')\n# Display gap analysis table\nprint(\"\\nSkill Gap Analysis Table:\")\ndisplay(gap_df.sort_values('Gap', ascending=False))"
+  },
+  {
+    "objectID": "skill_gap_analysis.html#priority-skill-categories",
+    "href": "skill_gap_analysis.html#priority-skill-categories",
+    "title": "Skill Gap Analysis",
+    "section": "1.2 Priority Skill Categories",
+    "text": "1.2 Priority Skill Categories\n\n1.2.1 🚨 Critical Gaps (Gap ≥ 2)\n\nSAP\nTableau\nExcel\nPower BI\n\n\n\n1.2.2 🔍 Moderate Gaps (Gap = 1-1.5)\n\nSQL\nMicrosoft Azure\nR\n\n\n\n1.2.3 ✅ Maintained Skills\n\nPython\nAWS"
+  },
+  {
+    "objectID": "skill_gap_analysis.html#individual-development-plans",
+    "href": "skill_gap_analysis.html#individual-development-plans",
+    "title": "Skill Gap Analysis",
+    "section": "1.3 Individual Development Plans",
+    "text": "1.3 Individual Development Plans\n\n\n\nMember\nFocus Areas\nRecommended Resources\n\n\n\n\nYan\nSAP, Power BI\nopenSAP courses, PL-300 Certification Prep\n\n\nZhen\nTableau, Excel\nTableau Public, Excel Advanced Analytics (Coursera)\n\n\nEdwin\nSQL, Azure\nSQLBolt, AZ-900 Azure Fundamentals\n\n\nLeck\nR, Python\nR for Data Science, Python Data Analysis ND"
+  },
+  {
+    "objectID": "skill_gap_analysis.html#team-learning-roadmap",
+    "href": "skill_gap_analysis.html#team-learning-roadmap",
+    "title": "Skill Gap Analysis",
+    "section": "1.4 Team Learning Roadmap",
+    "text": "1.4 Team Learning Roadmap\n\n1.4.1 Quarter 1 Goals\n\nAll members complete Power BI fundamentals\n2+ SAP module certifications\nWeekly SQL practice sessions\n\n\n\n1.4.2 Recommended Free Resources\n\nMicrosoft Learn - Azure/Power BI\nTableau Training\nSAP Learning Hub"
+  },
+  {
+    "objectID": "skill_gap_analysis.html#progress-tracking-system",
+    "href": "skill_gap_analysis.html#progress-tracking-system",
+    "title": "Skill Gap Analysis",
+    "section": "1.5 Progress Tracking System",
+    "text": "1.5 Progress Tracking System\nprogress = pd.DataFrame({\n    'Member': ['Yan', 'Zhen', 'Edwin', 'Leck'],\n    'SAP': [0, 0, 0, 0],  # 0=Not started, 1=In progress, 2=Certified\n    'Power_BI': [0, 0, 0, 0],\n    'Tableau': [0, 0, 0, 0]\n}).set_index('Member')"
+  },
+  {
+    "objectID": "skill_gap_analysis.html#expected-outcomes",
+    "href": "skill_gap_analysis.html#expected-outcomes",
+    "title": "Skill Gap Analysis",
+    "section": "1.6 Expected Outcomes",
+    "text": "1.6 Expected Outcomes\n\n3 Months: Basic proficiency in priority tools (SAP/Power BI/Tableau)\n6 Months: 4+ team certifications completed\n1 Year: All critical gaps reduced to ≤1\n\n“Measure progress weekly, adjust quarterly” – Use the gap analysis table to track improvements."
+  },
+  {
+    "objectID": "skill_gap_analysis.html#skill-gap-summary-table",
+    "href": "skill_gap_analysis.html#skill-gap-summary-table",
+    "title": "Skill Gap Analysis",
+    "section": "1.1 Skill Gap Summary Table",
+    "text": "1.1 Skill Gap Summary Table\n\n\n\nSkill\nIndustry Demand\nPriority (1-5)\nTeam Avg\nGap\n\n\n\n\nSAP\n11,990\n3\n0.0\n3\n\n\nTableau\n11,250\n3\n0.0\n3\n\n\nExcel\n8,026\n2\n0.0\n2\n\n\nPower BI\n9,594\n2\n0.0\n2\n\n\nSQL\n20,918\n5\n3.5\n1.5\n\n\nMicrosoft Azure\n4,603\n1\n0.0\n1\n\n\nPowerPoint\n6,154\n1\n0.0\n1\n\n\nR\n5,502\n1\n0.0\n1\n\n\nAWS\n3,630\n1\n1.0\n0\n\n\nPython\n11,693\n3\n3.5\n-0.5"
   }
 ]
