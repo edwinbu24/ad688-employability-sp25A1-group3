@@ -21,6 +21,8 @@ format:
 #| echo: true
 #| warning: false
 #| message: false
+#| eval: false
+#| code-fold: true
 
 # Import necessary libraries
 import pandas as pd
@@ -105,6 +107,49 @@ fig.show()
 - Explore Unclassified Roles: Investigate the "Unclassified Industry" category to identify potential opportunities that may not fit into traditional industry classifications.
 
 ```{python}
+# Additional data cleaning and feature engineering
+df['POSTED_DATE'] = pd.to_datetime(df['POSTED'])
+df['POSTED_YEAR'] = df['POSTED_DATE'].dt.year
+df['POSTED_MONTH'] = df['POSTED_DATE'].dt.month
+
+# Create a simplified location feature by extracting state from LOCATION
+df['STATE'] = df['LOCATION'].str.extract(r', (\w{2})$')
+
+# Corrected Monthly Trend Analysis
+monthly_trend = df.groupby(['POSTED_YEAR', 'POSTED_MONTH']).size().reset_index(name='Count')
+
+# Create a proper datetime column by combining year and month with day=1
+monthly_trend['Date'] = pd.to_datetime(
+    monthly_trend['POSTED_YEAR'].astype(str) + '-' + 
+    monthly_trend['POSTED_MONTH'].astype(str) + '-01'
+)
+```
+```{python}
+# Create the visualization
+fig = px.line(monthly_trend, x='Date', y='Count', 
+              title='Monthly Trend of Job Postings',
+              labels={'Count': 'Number of Job Postings'},
+              template='plotly_white')
+fig.update_xaxes(title_text='Month', tickformat='%b %Y')
+fig.update_layout(hovermode='x unified')
+fig.write_html("./figures/monthly_job_postings_trend.html")
+fig.show()
+```
+<iframe src="./figures/monthly_job_postings_trend.html" width="100%" height="500px"></iframe>
+
+## Observation: Seasonal Hiring Patterns
+- The monthly trend reveals a steady increase in job postings from May to August 2024, with a notable spike in August 2024 (approximately 14.5K postings). This aligns with typical mid-year hiring surges, possibly driven by:
+
+  - Post-budget approval cycles (companies ramping up hiring after Q2 financial reviews).
+
+  - Seasonal demand (e.g., healthcare roles before flu season, retail preparing for back-to-school).
+
+- The dip in Jul 2024 (~13K postings) may reflect temporary slowdowns due to summer vacations or fiscal quarter transitions.
+
+## Actionable Insight:
+- Job seekers should target August for applications, while recruiters might anticipate higher competition during these peak months.
+
+```{python}
 fig = px.box(df, x="NAICS_2022_2_NAME", y="SALARY", title="Salary Distribution by Industry")
 
 fig.write_html("./figures/salary_distribution_by_industry.html")  # Save the figure
@@ -128,6 +173,45 @@ fig.show()
 ## Recommendations
 - Target High-Paying Sectors: Job seekers looking for higher salaries should focus on industries like utilities, mining, and finance.
 - Explore Salary Trends: Further analyze salary trends within specific industries to identify roles with the highest earning potential.
+
+```{python}
+# Top 15 industries by job postings with salary information
+top_industries = df['NAICS_2022_2_NAME'].value_counts().nlargest(15).index
+industry_salary = df[df['NAICS_2022_2_NAME'].isin(top_industries)]
+
+fig = px.box(industry_salary, x='NAICS_2022_2_NAME', y='SALARY', 
+             color='NAICS_2022_2_NAME',
+             title='Salary Distribution Across Top 15 Industries',
+             labels={'NAICS_2022_2_NAME': 'Industry', 'SALARY': 'Salary'},
+             template='plotly_white')
+fig.update_layout(showlegend=False, xaxis_tickangle=-45)
+fig.write_html("./figures/top_industries_salary_distribution.html")
+fig.show()
+```
+<iframe src="./figures/top_industries_salary_distribution.html" width="100%" height="500px"></iframe>
+
+## Observation: Salary Peaks in High-Demand Service Sectors
+- Administrative/Support/Waste Management emerges as the highest-paying sector among top industries, likely due to:
+
+  - Specialized roles in remediation services (hazardous waste, environmental compliance).
+
+  - High demand for business support functions (IT, HR, logistics) in competitive markets.
+
+- Information and Healthcare/Social Assistance follow closely, reflecting:
+
+  - Tech-driven salaries (software, data security) in Information.
+
+  - Critical labor shortages elevating wages in Healthcare.
+
+- Public Administration and Utilities show moderate but stable salaries, possibly tied to government pay scales or unionized roles.
+
+- Educational Services and Real Estate appear lower-mid range, suggesting variability (e.g., tenured vs. adjunct positions, commercial vs. residential real estate).
+
+### Notable Gap:
+- While Technical Services and Manufacturing have high job volumes, their salaries are not top-tier, indicating possible oversupply of candidates or automation pressures.
+
+## Recommendation:
+- Job seekers should weigh salary against growth potential—e.g., Information may offer higher long-term earnings than Administrative/Support despite similar current pay.
 
 ```{python}
 # Remote vs. on-site jobs
@@ -160,3 +244,57 @@ fig.show()
 
 ## Recommendations
 - Express Willingness to Work On-Site: Job-seekers looking to join companies may consider expressing willingness to work on site , as these are still largely represented in the job market.
+
+```{python}
+# Remote work trends by industry
+remote_industry = df.groupby(['NAICS_2022_2_NAME', 'REMOTE_TYPE_NAME']).size().unstack().fillna(0)
+remote_industry['Total'] = remote_industry.sum(axis=1)
+remote_industry = remote_industry.sort_values('Total', ascending=False).head(15)
+remote_industry = remote_industry.drop('Total', axis=1)
+
+fig = px.bar(remote_industry, 
+             title='Remote Work Distribution Across Top Industries',
+             labels={'value': 'Number of Postings', 'NAICS_2022_2_NAME': 'Industry'},
+             barmode='stack')
+fig.update_layout(xaxis_tickangle=-45)
+fig.write_html("./figures/remote_work_by_industry.html")
+fig.show()
+```
+<iframe src="./figures/remote_work_by_industry.html" width="100%" height="500px"></iframe>
+
+## Observation: Industry-Specific Remote Work Adoption
+- Finance/Insurance leads in absolute remote roles (1,721), reflecting:
+
+  - Digital transformation in banking/fintech enabling remote work.
+
+  - Client-facing roles (e.g., advisors) adapting to hybrid models (283 hybrid).
+
+- Administrative/Support shows the highest hybrid adoption (350 hybrid), suggesting:
+
+  - Field services (e.g., waste remediation) require partial on-site presence.
+
+  - Back-office functions (e.g., HR, payroll) transitioning to hybrid.
+
+- Manufacturing has limited remote options (733 remote) due to:
+
+  - Production-line dependencies, though engineering/design roles may account for remote exceptions.
+
+- Information has the highest remote:onsite ratio (751 remote vs. 38 on-site), confirming:
+
+  - Tech roles (software, cybersecurity) as most adaptable to full-remote work.
+
+### Hidden Insight:
+- The "None" category (17% overall) likely includes:
+
+  - Roles with undisclosed flexibility (e.g., "negotiable").
+
+  - Legacy postings pre-dating remote-work standardization.
+
+## Strategic Recommendation:
+- Job seekers should:
+
+  - Target Information/Finance for fully remote roles.
+
+  - Consider hybrid in Administrative/Support for balance.
+
+  - Verify "None" postings directly with employers for hidden flexibility.

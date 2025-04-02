@@ -133,15 +133,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./data_analysis.html" aria-current="page"> 
-<span class="menu-text">Data Analysis</span></a>
+<span class="menu-text">Exploratory Data Analysis</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./data_cleaning.qmd/ipynb"> 
 <span class="menu-text">Data Cleaning &amp; Exploration</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./eda.qmd/ipynb"> 
-<span class="menu-text">Exploratory Data Analysis</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./skill_gap_analysis.qmd/ipynb"> 
@@ -176,18 +172,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#observations" id="toc-observations" class="nav-link" data-scroll-target="#observations"><span class="header-section-number">1.1</span> Observations</a></li>
   <li><a href="#key-insights" id="toc-key-insights" class="nav-link" data-scroll-target="#key-insights"><span class="header-section-number">1.2</span> Key Insights</a></li>
   <li><a href="#recommendations" id="toc-recommendations" class="nav-link" data-scroll-target="#recommendations"><span class="header-section-number">1.3</span> Recommendations</a></li>
+  <li><a href="#observation-seasonal-hiring-patterns" id="toc-observation-seasonal-hiring-patterns" class="nav-link" data-scroll-target="#observation-seasonal-hiring-patterns"><span class="header-section-number">1.4</span> Observation: Seasonal Hiring Patterns</a></li>
+  <li><a href="#actionable-insight" id="toc-actionable-insight" class="nav-link" data-scroll-target="#actionable-insight"><span class="header-section-number">1.5</span> Actionable Insight:</a></li>
   </ul></li>
   <li><a href="#salary-distribution-by-industry" id="toc-salary-distribution-by-industry" class="nav-link" data-scroll-target="#salary-distribution-by-industry"><span class="header-section-number">2</span> Salary Distribution by Industry</a>
   <ul class="collapse">
   <li><a href="#observations-1" id="toc-observations-1" class="nav-link" data-scroll-target="#observations-1"><span class="header-section-number">2.1</span> Observations</a></li>
   <li><a href="#key-insights-1" id="toc-key-insights-1" class="nav-link" data-scroll-target="#key-insights-1"><span class="header-section-number">2.2</span> Key Insights</a></li>
   <li><a href="#recommendations-1" id="toc-recommendations-1" class="nav-link" data-scroll-target="#recommendations-1"><span class="header-section-number">2.3</span> Recommendations</a></li>
+  <li><a href="#observation-salary-peaks-in-high-demand-service-sectors" id="toc-observation-salary-peaks-in-high-demand-service-sectors" class="nav-link" data-scroll-target="#observation-salary-peaks-in-high-demand-service-sectors"><span class="header-section-number">2.4</span> Observation: Salary Peaks in High-Demand Service Sectors</a>
+  <ul class="collapse">
+  <li><a href="#notable-gap" id="toc-notable-gap" class="nav-link" data-scroll-target="#notable-gap"><span class="header-section-number">2.4.1</span> Notable Gap:</a></li>
+  </ul></li>
+  <li><a href="#recommendation" id="toc-recommendation" class="nav-link" data-scroll-target="#recommendation"><span class="header-section-number">2.5</span> Recommendation:</a></li>
   </ul></li>
   <li><a href="#remote-vs.-on-site-jobs" id="toc-remote-vs.-on-site-jobs" class="nav-link" data-scroll-target="#remote-vs.-on-site-jobs"><span class="header-section-number">3</span> Remote vs.&nbsp;On-Site Jobs</a>
   <ul class="collapse">
   <li><a href="#observations-2" id="toc-observations-2" class="nav-link" data-scroll-target="#observations-2"><span class="header-section-number">3.1</span> Observations</a></li>
   <li><a href="#key-insights-2" id="toc-key-insights-2" class="nav-link" data-scroll-target="#key-insights-2"><span class="header-section-number">3.2</span> Key Insights</a></li>
   <li><a href="#recommendations-2" id="toc-recommendations-2" class="nav-link" data-scroll-target="#recommendations-2"><span class="header-section-number">3.3</span> Recommendations</a></li>
+  <li><a href="#observation-industry-specific-remote-work-adoption" id="toc-observation-industry-specific-remote-work-adoption" class="nav-link" data-scroll-target="#observation-industry-specific-remote-work-adoption"><span class="header-section-number">3.4</span> Observation: Industry-Specific Remote Work Adoption</a>
+  <ul class="collapse">
+  <li><a href="#hidden-insight" id="toc-hidden-insight" class="nav-link" data-scroll-target="#hidden-insight"><span class="header-section-number">3.4.1</span> Hidden Insight:</a></li>
+  </ul></li>
+  <li><a href="#strategic-recommendation" id="toc-strategic-recommendation" class="nav-link" data-scroll-target="#strategic-recommendation"><span class="header-section-number">3.5</span> Strategic Recommendation:</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -228,7 +236,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="12788c5b" class="cell" data-message="false" data-execution_count="1">
+<div id="dfe8a120" class="cell" data-message="false" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import necessary libraries</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -253,6 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Missing Values Heatmap"</span>)</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"./figures/missing_values_heatmap.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>)  <span class="co"># Save the figure</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -260,7 +271,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Missing Values Heatmap</figcaption>
 </figure>
 </div>
-<div id="fd951ea5" class="cell" data-execution_count="2">
+<div id="b2229562" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Handle missing values for "SALARY"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"SALARY"</span> <span class="kw">in</span> df.columns:</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"SALARY"</span>].fillna(df[<span class="st">"SALARY"</span>].median(), inplace<span class="op">=</span><span class="va">True</span>)</span>
@@ -281,7 +292,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the number of rows after removing duplicates</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="408a24d7" class="cell" data-execution_count="3">
+<div id="a95ac739" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Job postings by industry</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>industry_counts <span class="op">=</span> df[<span class="st">"NAICS_2022_2_NAME"</span>].value_counts().reset_index()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>industry_counts.columns <span class="op">=</span> [<span class="st">"Industry"</span>, <span class="st">"Count"</span>]</span>
@@ -323,12 +334,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Focus on High-Demand Sectors: Job seekers should prioritize industries with the highest number of job postings, such as professional services, manufacturing, and healthcare.</li>
 <li>Explore Unclassified Roles: Investigate the “Unclassified Industry” category to identify potential opportunities that may not fit into traditional industry classifications.</li>
 </ul>
-<div id="6dc28543" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.box(df, x<span class="op">=</span><span class="st">"NAICS_2022_2_NAME"</span>, y<span class="op">=</span><span class="st">"SALARY"</span>, title<span class="op">=</span><span class="st">"Salary Distribution by Industry"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/salary_distribution_by_industry.html"</span>)  <span class="co"># Save the figure</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e8271921" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Additional data cleaning and feature engineering</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_DATE'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'POSTED'</span>])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_YEAR'</span>] <span class="op">=</span> df[<span class="st">'POSTED_DATE'</span>].dt.year</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_MONTH'</span>] <span class="op">=</span> df[<span class="st">'POSTED_DATE'</span>].dt.month</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a simplified location feature by extracting state from LOCATION</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'STATE'</span>] <span class="op">=</span> df[<span class="st">'LOCATION'</span>].<span class="bu">str</span>.extract(<span class="vs">r', (\w</span><span class="sc">{2}</span><span class="vs">)$'</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Corrected Monthly Trend Analysis</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>monthly_trend <span class="op">=</span> df.groupby([<span class="st">'POSTED_YEAR'</span>, <span class="st">'POSTED_MONTH'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'Count'</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a proper datetime column by combining year and month with day=1</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>monthly_trend[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    monthly_trend[<span class="st">'POSTED_YEAR'</span>].astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">'-'</span> <span class="op">+</span> </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    monthly_trend[<span class="st">'POSTED_MONTH'</span>].astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">'-01'</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a8e9912e" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the visualization</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.line(monthly_trend, x<span class="op">=</span><span class="st">'Date'</span>, y<span class="op">=</span><span class="st">'Count'</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>              title<span class="op">=</span><span class="st">'Monthly Trend of Job Postings'</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>              labels<span class="op">=</span>{<span class="st">'Count'</span>: <span class="st">'Number of Job Postings'</span>},</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>              template<span class="op">=</span><span class="st">'plotly_white'</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>fig.update_xaxes(title_text<span class="op">=</span><span class="st">'Month'</span>, tickformat<span class="op">=</span><span class="st">'%b %Y'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>fig.update_layout(hovermode<span class="op">=</span><span class="st">'x unified'</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/monthly_job_postings_trend.html"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<iframe src="./figures/monthly_job_postings_trend.html" width="100%" height="500px">
+</iframe>
+</section>
+<section id="observation-seasonal-hiring-patterns" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="observation-seasonal-hiring-patterns"><span class="header-section-number">1.4</span> Observation: Seasonal Hiring Patterns</h2>
+<ul>
+<li><p>The monthly trend reveals a steady increase in job postings from May to August 2024, with a notable spike in August 2024 (approximately 14.5K postings). This aligns with typical mid-year hiring surges, possibly driven by:</p>
+<ul>
+<li><p>Post-budget approval cycles (companies ramping up hiring after Q2 financial reviews).</p></li>
+<li><p>Seasonal demand (e.g., healthcare roles before flu season, retail preparing for back-to-school).</p></li>
+</ul></li>
+<li><p>The dip in Jul 2024 (~13K postings) may reflect temporary slowdowns due to summer vacations or fiscal quarter transitions.</p></li>
+</ul>
+</section>
+<section id="actionable-insight" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="actionable-insight"><span class="header-section-number">1.5</span> Actionable Insight:</h2>
+<ul>
+<li>Job seekers should target August for applications, while recruiters might anticipate higher competition during these peak months.</li>
+</ul>
+<div id="2dd9f3c1" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.box(df, x<span class="op">=</span><span class="st">"NAICS_2022_2_NAME"</span>, y<span class="op">=</span><span class="st">"SALARY"</span>, title<span class="op">=</span><span class="st">"Salary Distribution by Industry"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/salary_distribution_by_industry.html"</span>)  <span class="co"># Save the figure</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <iframe src="./figures/salary_distribution_by_industry.html" width="100%" height="500px">
 </iframe>
@@ -358,17 +417,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Target High-Paying Sectors: Job seekers looking for higher salaries should focus on industries like utilities, mining, and finance.</li>
 <li>Explore Salary Trends: Further analyze salary trends within specific industries to identify roles with the highest earning potential.</li>
 </ul>
-<div id="fb0a3b4c" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote vs. on-site jobs</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>remote_counts <span class="op">=</span> df[<span class="st">"REMOTE_TYPE_NAME"</span>].value_counts().reset_index()</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>remote_counts.columns <span class="op">=</span> [<span class="st">"Remote Type"</span>, <span class="st">"Count"</span>]</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the figure as HTML (Plotly)</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.pie(remote_counts, names<span class="op">=</span><span class="st">"Remote Type"</span>, values<span class="op">=</span><span class="st">"Count"</span>, title<span class="op">=</span><span class="st">"Remote vs. On-Site Jobs"</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/remote_vs_onsite_jobs.html"</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the figure</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3701d828" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Top 15 industries by job postings with salary information</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>top_industries <span class="op">=</span> df[<span class="st">'NAICS_2022_2_NAME'</span>].value_counts().nlargest(<span class="dv">15</span>).index</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>industry_salary <span class="op">=</span> df[df[<span class="st">'NAICS_2022_2_NAME'</span>].isin(top_industries)]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.box(industry_salary, x<span class="op">=</span><span class="st">'NAICS_2022_2_NAME'</span>, y<span class="op">=</span><span class="st">'SALARY'</span>, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>             color<span class="op">=</span><span class="st">'NAICS_2022_2_NAME'</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>             title<span class="op">=</span><span class="st">'Salary Distribution Across Top 15 Industries'</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>             labels<span class="op">=</span>{<span class="st">'NAICS_2022_2_NAME'</span>: <span class="st">'Industry'</span>, <span class="st">'SALARY'</span>: <span class="st">'Salary'</span>},</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>             template<span class="op">=</span><span class="st">'plotly_white'</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>fig.update_layout(showlegend<span class="op">=</span><span class="va">False</span>, xaxis_tickangle<span class="op">=-</span><span class="dv">45</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/top_industries_salary_distribution.html"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<iframe src="./figures/top_industries_salary_distribution.html" width="100%" height="500px">
+</iframe>
+</section>
+<section id="observation-salary-peaks-in-high-demand-service-sectors" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="observation-salary-peaks-in-high-demand-service-sectors"><span class="header-section-number">2.4</span> Observation: Salary Peaks in High-Demand Service Sectors</h2>
+<ul>
+<li><p>Administrative/Support/Waste Management emerges as the highest-paying sector among top industries, likely due to:</p>
+<ul>
+<li><p>Specialized roles in remediation services (hazardous waste, environmental compliance).</p></li>
+<li><p>High demand for business support functions (IT, HR, logistics) in competitive markets.</p></li>
+</ul></li>
+<li><p>Information and Healthcare/Social Assistance follow closely, reflecting:</p>
+<ul>
+<li><p>Tech-driven salaries (software, data security) in Information.</p></li>
+<li><p>Critical labor shortages elevating wages in Healthcare.</p></li>
+</ul></li>
+<li><p>Public Administration and Utilities show moderate but stable salaries, possibly tied to government pay scales or unionized roles.</p></li>
+<li><p>Educational Services and Real Estate appear lower-mid range, suggesting variability (e.g., tenured vs.&nbsp;adjunct positions, commercial vs.&nbsp;residential real estate).</p></li>
+</ul>
+<section id="notable-gap" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="notable-gap"><span class="header-section-number">2.4.1</span> Notable Gap:</h3>
+<ul>
+<li>While Technical Services and Manufacturing have high job volumes, their salaries are not top-tier, indicating possible oversupply of candidates or automation pressures.</li>
+</ul>
+</section>
+</section>
+<section id="recommendation" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="recommendation"><span class="header-section-number">2.5</span> Recommendation:</h2>
+<ul>
+<li>Job seekers should weigh salary against growth potential—e.g., Information may offer higher long-term earnings than Administrative/Support despite similar current pay.</li>
+</ul>
+<div id="3ad7febd" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote vs. on-site jobs</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>remote_counts <span class="op">=</span> df[<span class="st">"REMOTE_TYPE_NAME"</span>].value_counts().reset_index()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>remote_counts.columns <span class="op">=</span> [<span class="st">"Remote Type"</span>, <span class="st">"Count"</span>]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the figure as HTML (Plotly)</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.pie(remote_counts, names<span class="op">=</span><span class="st">"Remote Type"</span>, values<span class="op">=</span><span class="st">"Count"</span>, title<span class="op">=</span><span class="st">"Remote vs. On-Site Jobs"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/remote_vs_onsite_jobs.html"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the figure</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <iframe src="./figures/remote_vs_onsite_jobs.html" width="100%" height="500px">
 </iframe>
@@ -402,6 +506,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="3.3" class="anchored" data-anchor-id="recommendations-2"><span class="header-section-number">3.3</span> Recommendations</h2>
 <ul>
 <li>Express Willingness to Work On-Site: Job-seekers looking to join companies may consider expressing willingness to work on site , as these are still largely represented in the job market.</li>
+</ul>
+<div id="84f1aedd" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remote work trends by industry</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>remote_industry <span class="op">=</span> df.groupby([<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'REMOTE_TYPE_NAME'</span>]).size().unstack().fillna(<span class="dv">0</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>remote_industry[<span class="st">'Total'</span>] <span class="op">=</span> remote_industry.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>remote_industry <span class="op">=</span> remote_industry.sort_values(<span class="st">'Total'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">15</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>remote_industry <span class="op">=</span> remote_industry.drop(<span class="st">'Total'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.bar(remote_industry, </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>             title<span class="op">=</span><span class="st">'Remote Work Distribution Across Top Industries'</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>             labels<span class="op">=</span>{<span class="st">'value'</span>: <span class="st">'Number of Postings'</span>, <span class="st">'NAICS_2022_2_NAME'</span>: <span class="st">'Industry'</span>},</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>             barmode<span class="op">=</span><span class="st">'stack'</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>fig.update_layout(xaxis_tickangle<span class="op">=-</span><span class="dv">45</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/remote_work_by_industry.html"</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<iframe src="./figures/remote_work_by_industry.html" width="100%" height="500px">
+</iframe>
+</section>
+<section id="observation-industry-specific-remote-work-adoption" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="observation-industry-specific-remote-work-adoption"><span class="header-section-number">3.4</span> Observation: Industry-Specific Remote Work Adoption</h2>
+<ul>
+<li><p>Finance/Insurance leads in absolute remote roles (1,721), reflecting:</p>
+<ul>
+<li><p>Digital transformation in banking/fintech enabling remote work.</p></li>
+<li><p>Client-facing roles (e.g., advisors) adapting to hybrid models (283 hybrid).</p></li>
+</ul></li>
+<li><p>Administrative/Support shows the highest hybrid adoption (350 hybrid), suggesting:</p>
+<ul>
+<li><p>Field services (e.g., waste remediation) require partial on-site presence.</p></li>
+<li><p>Back-office functions (e.g., HR, payroll) transitioning to hybrid.</p></li>
+</ul></li>
+<li><p>Manufacturing has limited remote options (733 remote) due to:</p>
+<ul>
+<li>Production-line dependencies, though engineering/design roles may account for remote exceptions.</li>
+</ul></li>
+<li><p>Information has the highest remote:onsite ratio (751 remote vs.&nbsp;38 on-site), confirming:</p>
+<ul>
+<li>Tech roles (software, cybersecurity) as most adaptable to full-remote work.</li>
+</ul></li>
+</ul>
+<section id="hidden-insight" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="hidden-insight"><span class="header-section-number">3.4.1</span> Hidden Insight:</h3>
+<ul>
+<li><p>The “None” category (17% overall) likely includes:</p>
+<ul>
+<li><p>Roles with undisclosed flexibility (e.g., “negotiable”).</p></li>
+<li><p>Legacy postings pre-dating remote-work standardization.</p></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="strategic-recommendation" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="strategic-recommendation"><span class="header-section-number">3.5</span> Strategic Recommendation:</h2>
+<ul>
+<li><p>Job seekers should:</p>
+<ul>
+<li><p>Target Information/Finance for fully remote roles.</p></li>
+<li><p>Consider hybrid in Administrative/Support for balance.</p></li>
+<li><p>Verify “None” postings directly with employers for hidden flexibility.</p></li>
+</ul></li>
 </ul>
 
 

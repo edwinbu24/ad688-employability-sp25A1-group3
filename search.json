@@ -137,7 +137,7 @@
     "href": "data_analysis.html",
     "title": "Data Analysis",
     "section": "",
-    "text": "# Import necessary libraries\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nimport plotly.express as px\nimport missingno as msno\n\n# Load the dataset \ndf = pd.read_csv('data/lightcast_job_postings.csv')\n\n# Dropping unnecessary columns\ncolumns_to_drop = [\n    \"ID\", \"URL\", \"ACTIVE_URLS\", \"DUPLICATES\", \"LAST_UPDATED_TIMESTAMP\",\n    \"NAICS2\", \"NAICS3\", \"NAICS4\", \"NAICS5\", \"NAICS6\",\n    \"SOC_2\", \"SOC_3\", \"SOC_5\"\n]\ndf.drop(columns=columns_to_drop, inplace=True)\n\n# Visualize missing data\nmsno.heatmap(df)\nplt.title(\"Missing Values Heatmap\")\nplt.savefig(\"./figures/missing_values_heatmap.png\", dpi=300)  # Save the figure\nplt.show()\n# Handle missing values for \"SALARY\"\nif \"SALARY\" in df.columns:\n    df[\"SALARY\"].fillna(df[\"SALARY\"].median(), inplace=True)\nelse:\n    print(\"Error: 'SALARY_TO' column not found in the dataset.\")\n\n# Handle missing values for \"INDUSTRY\"\nif \"NAICS_2022_2_NAME\" in df.columns:\n    df[\"NAICS_2022_2_NAME\"].fillna(\"Unknown\", inplace=True)\nelse:\n    print(\"Error: 'NAICS_2022_2_NAME' column not found in the dataset.\")\n\n# Display the number of missing values after handling\ndf.isnull().sum()\n\ndf = df.drop_duplicates(subset=[\"TITLE\", \"COMPANY\", \"LOCATION\", \"POSTED\"], keep=\"first\")\n\n# Display the number of rows after removing duplicates\ndf.head()\n# Job postings by industry\nindustry_counts = df[\"NAICS_2022_2_NAME\"].value_counts().reset_index()\nindustry_counts.columns = [\"Industry\", \"Count\"]\n\n# Exclude industries with less than 100 counts\nindustry_counts = industry_counts[industry_counts[\"Count\"] &gt; 0]\n\n# Create the bar chart\nfig = px.bar(industry_counts, x=\"Industry\", y=\"Count\", title=\"Job Postings by Industry\")\n\nfig.write_html(\"./figures/job_postings_by_industry.html\")\n\nfig.show()"
+    "text": "Code\n# Import necessary libraries\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nimport plotly.express as px\nimport missingno as msno\n\n# Load the dataset \ndf = pd.read_csv('data/lightcast_job_postings.csv')\n\n# Dropping unnecessary columns\ncolumns_to_drop = [\n    \"ID\", \"URL\", \"ACTIVE_URLS\", \"DUPLICATES\", \"LAST_UPDATED_TIMESTAMP\",\n    \"NAICS2\", \"NAICS3\", \"NAICS4\", \"NAICS5\", \"NAICS6\",\n    \"SOC_2\", \"SOC_3\", \"SOC_5\"\n]\ndf.drop(columns=columns_to_drop, inplace=True)\n\n# Visualize missing data\nmsno.heatmap(df)\nplt.title(\"Missing Values Heatmap\")\nplt.savefig(\"./figures/missing_values_heatmap.png\", dpi=300)  # Save the figure\nplt.show()\n# Handle missing values for \"SALARY\"\nif \"SALARY\" in df.columns:\n    df[\"SALARY\"].fillna(df[\"SALARY\"].median(), inplace=True)\nelse:\n    print(\"Error: 'SALARY_TO' column not found in the dataset.\")\n\n# Handle missing values for \"INDUSTRY\"\nif \"NAICS_2022_2_NAME\" in df.columns:\n    df[\"NAICS_2022_2_NAME\"].fillna(\"Unknown\", inplace=True)\nelse:\n    print(\"Error: 'NAICS_2022_2_NAME' column not found in the dataset.\")\n\n# Display the number of missing values after handling\ndf.isnull().sum()\n\ndf = df.drop_duplicates(subset=[\"TITLE\", \"COMPANY\", \"LOCATION\", \"POSTED\"], keep=\"first\")\n\n# Display the number of rows after removing duplicates\ndf.head()\n# Job postings by industry\nindustry_counts = df[\"NAICS_2022_2_NAME\"].value_counts().reset_index()\nindustry_counts.columns = [\"Industry\", \"Count\"]\n\n# Exclude industries with less than 100 counts\nindustry_counts = industry_counts[industry_counts[\"Count\"] &gt; 0]\n\n# Create the bar chart\nfig = px.bar(industry_counts, x=\"Industry\", y=\"Count\", title=\"Job Postings by Industry\")\n\nfig.write_html(\"./figures/job_postings_by_industry.html\")\n\nfig.show()"
   },
   {
     "objectID": "data_analysis.html#key-insights",
@@ -151,7 +151,7 @@
     "href": "data_analysis.html#recommendations",
     "title": "Data Analysis",
     "section": "1.3 Recommendations",
-    "text": "1.3 Recommendations\n\nFocus on High-Demand Sectors: Job seekers should prioritize industries with the highest number of job postings, such as professional services, manufacturing, and healthcare.\nExplore Unclassified Roles: Investigate the “Unclassified Industry” category to identify potential opportunities that may not fit into traditional industry classifications.\n\n\nfig = px.box(df, x=\"NAICS_2022_2_NAME\", y=\"SALARY\", title=\"Salary Distribution by Industry\")\n\nfig.write_html(\"./figures/salary_distribution_by_industry.html\")  # Save the figure\n\nfig.show()"
+    "text": "1.3 Recommendations\n\nFocus on High-Demand Sectors: Job seekers should prioritize industries with the highest number of job postings, such as professional services, manufacturing, and healthcare.\nExplore Unclassified Roles: Investigate the “Unclassified Industry” category to identify potential opportunities that may not fit into traditional industry classifications.\n\n\n# Additional data cleaning and feature engineering\ndf['POSTED_DATE'] = pd.to_datetime(df['POSTED'])\ndf['POSTED_YEAR'] = df['POSTED_DATE'].dt.year\ndf['POSTED_MONTH'] = df['POSTED_DATE'].dt.month\n\n# Create a simplified location feature by extracting state from LOCATION\ndf['STATE'] = df['LOCATION'].str.extract(r', (\\w{2})$')\n\n# Corrected Monthly Trend Analysis\nmonthly_trend = df.groupby(['POSTED_YEAR', 'POSTED_MONTH']).size().reset_index(name='Count')\n\n# Create a proper datetime column by combining year and month with day=1\nmonthly_trend['Date'] = pd.to_datetime(\n    monthly_trend['POSTED_YEAR'].astype(str) + '-' + \n    monthly_trend['POSTED_MONTH'].astype(str) + '-01'\n)\n\n\n# Create the visualization\nfig = px.line(monthly_trend, x='Date', y='Count', \n              title='Monthly Trend of Job Postings',\n              labels={'Count': 'Number of Job Postings'},\n              template='plotly_white')\nfig.update_xaxes(title_text='Month', tickformat='%b %Y')\nfig.update_layout(hovermode='x unified')\nfig.write_html(\"./figures/monthly_job_postings_trend.html\")\nfig.show()"
   },
   {
     "objectID": "data_analysis.html#observations",
@@ -179,7 +179,7 @@
     "href": "data_analysis.html#recommendations-1",
     "title": "Data Analysis",
     "section": "2.3 Recommendations",
-    "text": "2.3 Recommendations\n\nTarget High-Paying Sectors: Job seekers looking for higher salaries should focus on industries like utilities, mining, and finance.\nExplore Salary Trends: Further analyze salary trends within specific industries to identify roles with the highest earning potential.\n\n\n# Remote vs. on-site jobs\nremote_counts = df[\"REMOTE_TYPE_NAME\"].value_counts().reset_index()\nremote_counts.columns = [\"Remote Type\", \"Count\"]\n\n# Save the figure as HTML (Plotly)\nfig = px.pie(remote_counts, names=\"Remote Type\", values=\"Count\", title=\"Remote vs. On-Site Jobs\")\nfig.write_html(\"./figures/remote_vs_onsite_jobs.html\")\n\n# Display the figure\nfig.show()"
+    "text": "2.3 Recommendations\n\nTarget High-Paying Sectors: Job seekers looking for higher salaries should focus on industries like utilities, mining, and finance.\nExplore Salary Trends: Further analyze salary trends within specific industries to identify roles with the highest earning potential.\n\n\n# Top 15 industries by job postings with salary information\ntop_industries = df['NAICS_2022_2_NAME'].value_counts().nlargest(15).index\nindustry_salary = df[df['NAICS_2022_2_NAME'].isin(top_industries)]\n\nfig = px.box(industry_salary, x='NAICS_2022_2_NAME', y='SALARY', \n             color='NAICS_2022_2_NAME',\n             title='Salary Distribution Across Top 15 Industries',\n             labels={'NAICS_2022_2_NAME': 'Industry', 'SALARY': 'Salary'},\n             template='plotly_white')\nfig.update_layout(showlegend=False, xaxis_tickangle=-45)\nfig.write_html(\"./figures/top_industries_salary_distribution.html\")\nfig.show()"
   },
   {
     "objectID": "data_analysis.html#observations-2",
@@ -200,6 +200,48 @@
     "href": "data_analysis.html#recommendations-2",
     "title": "Data Analysis",
     "section": "3.3 Recommendations",
-    "text": "3.3 Recommendations\n\nExpress Willingness to Work On-Site: Job-seekers looking to join companies may consider expressing willingness to work on site , as these are still largely represented in the job market."
+    "text": "3.3 Recommendations\n\nExpress Willingness to Work On-Site: Job-seekers looking to join companies may consider expressing willingness to work on site , as these are still largely represented in the job market.\n\n\n# Remote work trends by industry\nremote_industry = df.groupby(['NAICS_2022_2_NAME', 'REMOTE_TYPE_NAME']).size().unstack().fillna(0)\nremote_industry['Total'] = remote_industry.sum(axis=1)\nremote_industry = remote_industry.sort_values('Total', ascending=False).head(15)\nremote_industry = remote_industry.drop('Total', axis=1)\n\nfig = px.bar(remote_industry, \n             title='Remote Work Distribution Across Top Industries',\n             labels={'value': 'Number of Postings', 'NAICS_2022_2_NAME': 'Industry'},\n             barmode='stack')\nfig.update_layout(xaxis_tickangle=-45)\nfig.write_html(\"./figures/remote_work_by_industry.html\")\nfig.show()"
+  },
+  {
+    "objectID": "data_analysis.html#observation-seasonal-hiring-patterns",
+    "href": "data_analysis.html#observation-seasonal-hiring-patterns",
+    "title": "Data Analysis",
+    "section": "1.4 Observation: Seasonal Hiring Patterns",
+    "text": "1.4 Observation: Seasonal Hiring Patterns\n\nThe monthly trend reveals a steady increase in job postings from May to August 2024, with a notable spike in August 2024 (approximately 14.5K postings). This aligns with typical mid-year hiring surges, possibly driven by:\n\nPost-budget approval cycles (companies ramping up hiring after Q2 financial reviews).\nSeasonal demand (e.g., healthcare roles before flu season, retail preparing for back-to-school).\n\nThe dip in Jul 2024 (~13K postings) may reflect temporary slowdowns due to summer vacations or fiscal quarter transitions."
+  },
+  {
+    "objectID": "data_analysis.html#actionable-insight",
+    "href": "data_analysis.html#actionable-insight",
+    "title": "Data Analysis",
+    "section": "1.5 Actionable Insight:",
+    "text": "1.5 Actionable Insight:\n\nJob seekers should target August for applications, while recruiters might anticipate higher competition during these peak months.\n\n\nfig = px.box(df, x=\"NAICS_2022_2_NAME\", y=\"SALARY\", title=\"Salary Distribution by Industry\")\n\nfig.write_html(\"./figures/salary_distribution_by_industry.html\")  # Save the figure\n\nfig.show()"
+  },
+  {
+    "objectID": "data_analysis.html#observation-salary-peaks-in-high-demand-service-sectors",
+    "href": "data_analysis.html#observation-salary-peaks-in-high-demand-service-sectors",
+    "title": "Data Analysis",
+    "section": "2.4 Observation: Salary Peaks in High-Demand Service Sectors",
+    "text": "2.4 Observation: Salary Peaks in High-Demand Service Sectors\n\nAdministrative/Support/Waste Management emerges as the highest-paying sector among top industries, likely due to:\n\nSpecialized roles in remediation services (hazardous waste, environmental compliance).\nHigh demand for business support functions (IT, HR, logistics) in competitive markets.\n\nInformation and Healthcare/Social Assistance follow closely, reflecting:\n\nTech-driven salaries (software, data security) in Information.\nCritical labor shortages elevating wages in Healthcare.\n\nPublic Administration and Utilities show moderate but stable salaries, possibly tied to government pay scales or unionized roles.\nEducational Services and Real Estate appear lower-mid range, suggesting variability (e.g., tenured vs. adjunct positions, commercial vs. residential real estate).\n\n\n2.4.1 Notable Gap:\n\nWhile Technical Services and Manufacturing have high job volumes, their salaries are not top-tier, indicating possible oversupply of candidates or automation pressures."
+  },
+  {
+    "objectID": "data_analysis.html#recommendation",
+    "href": "data_analysis.html#recommendation",
+    "title": "Data Analysis",
+    "section": "2.5 Recommendation:",
+    "text": "2.5 Recommendation:\n\nJob seekers should weigh salary against growth potential—e.g., Information may offer higher long-term earnings than Administrative/Support despite similar current pay.\n\n\n# Remote vs. on-site jobs\nremote_counts = df[\"REMOTE_TYPE_NAME\"].value_counts().reset_index()\nremote_counts.columns = [\"Remote Type\", \"Count\"]\n\n# Save the figure as HTML (Plotly)\nfig = px.pie(remote_counts, names=\"Remote Type\", values=\"Count\", title=\"Remote vs. On-Site Jobs\")\nfig.write_html(\"./figures/remote_vs_onsite_jobs.html\")\n\n# Display the figure\nfig.show()"
+  },
+  {
+    "objectID": "data_analysis.html#observation-industry-specific-remote-work-adoption",
+    "href": "data_analysis.html#observation-industry-specific-remote-work-adoption",
+    "title": "Data Analysis",
+    "section": "3.4 Observation: Industry-Specific Remote Work Adoption",
+    "text": "3.4 Observation: Industry-Specific Remote Work Adoption\n\nFinance/Insurance leads in absolute remote roles (1,721), reflecting:\n\nDigital transformation in banking/fintech enabling remote work.\nClient-facing roles (e.g., advisors) adapting to hybrid models (283 hybrid).\n\nAdministrative/Support shows the highest hybrid adoption (350 hybrid), suggesting:\n\nField services (e.g., waste remediation) require partial on-site presence.\nBack-office functions (e.g., HR, payroll) transitioning to hybrid.\n\nManufacturing has limited remote options (733 remote) due to:\n\nProduction-line dependencies, though engineering/design roles may account for remote exceptions.\n\nInformation has the highest remote:onsite ratio (751 remote vs. 38 on-site), confirming:\n\nTech roles (software, cybersecurity) as most adaptable to full-remote work.\n\n\n\n3.4.1 Hidden Insight:\n\nThe “None” category (17% overall) likely includes:\n\nRoles with undisclosed flexibility (e.g., “negotiable”).\nLegacy postings pre-dating remote-work standardization."
+  },
+  {
+    "objectID": "data_analysis.html#strategic-recommendation",
+    "href": "data_analysis.html#strategic-recommendation",
+    "title": "Data Analysis",
+    "section": "3.5 Strategic Recommendation:",
+    "text": "3.5 Strategic Recommendation:\n\nJob seekers should:\n\nTarget Information/Finance for fully remote roles.\nConsider hybrid in Administrative/Support for balance.\nVerify “None” postings directly with employers for hidden flexibility."
   }
 ]
