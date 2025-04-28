@@ -1,0 +1,45 @@
+---
+title: "Unsupervised Learning"
+subtitle: "Evaluating Personal Job Market Prospects in 2024"
+author:
+  - name: Edwin Leck
+    affiliations:
+      - id: bu
+        name: Boston University
+        city: Boston
+        state: MA
+bibliography: references.bib
+csl: csl/econometrica.csl
+format: 
+  html:
+    toc: true
+    number-sections: true
+    df-print: paged
+---
+
+# Unsupervised Learning: KMeans Clustering
+Goal: Cluster jobs based on SKILLS_NAME and TITLE_NAME to discover hidden patterns.
+Reference Label: SOC_2021_4_NAME (e.g., "Data Scientists").
+
+```{python}
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Load data
+df = pd.read_csv('data/lightcast_job_postings.csv')
+
+# Text data: Combine skills and job title
+df['TEXT_DATA'] = df['TITLE_NAME'] + ' ' + df['SKILLS_NAME'].apply(lambda x: ' '.join(x))
+
+# Vectorize
+vectorizer = TfidfVectorizer(max_features=100)
+X = vectorizer.fit_transform(df['TEXT_DATA'])
+
+# Cluster
+kmeans = KMeans(n_clusters=5, random_state=42)
+df['CLUSTER'] = kmeans.fit_predict(X)
+
+# Compare clusters to SOC labels
+pd.crosstab(df['CLUSTER'], df['SOC_2021_4_NAME'])
+```

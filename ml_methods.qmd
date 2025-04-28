@@ -1,0 +1,237 @@
+---
+title: "Multiple Regression"
+subtitle: "Evaluating Personal Job Market Prospects in 2024"
+author:
+  - name: Edwin Leck
+    affiliations:
+      - id: bu
+        name: Boston University
+        city: Boston
+        state: MA
+bibliography: references.bib
+csl: csl/econometrica.csl
+format: 
+  html:
+    toc: true
+    number-sections: true
+    df-print: paged
+---
+
+# Salary Prediction (Multiple Linear Regression)
+Goal: Predict salary based on location, job title, and skills.
+Target Variable: SALARY
+
+## Features
+- Categorical: STATE_NAME, TITLE_NAME, REMOTE_TYPE_NAME
+- Numerical: MIN_YEARS_EXPERIENCE, MAX_YEARS_EXPERIENCE
+- Skills (binary flags): SKILLS_NAME (e.g., SQL (Programming Language), Power BI)
+
+```{python}
+#| eval: false
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+import numpy as np
+
+# Load data
+df = pd.read_csv('data/lightcast_job_postings.csv')
+
+# Feature Engineering
+# Create binary flags for top 5 skills
+top_skills = ['SQL', 'Power BI', 'Statistical Analysis', 'Data Mining', 'Business Analysis']
+for skill in top_skills:
+    df[f'SKILL_{skill}'] = df['SKILLS_NAME'].apply(
+        lambda x: 1 if isinstance(x, str) and skill in x 
+        else (1 if isinstance(x, list) and skill in str(x) else 0)
+    )
+
+# Define features and target
+features = ['STATE_NAME', 'TITLE_NAME', 'MIN_YEARS_EXPERIENCE', 'MAX_YEARS_EXPERIENCE'] + [f'SKILL_{s}' for s in top_skills]
+X = df[features]
+y = df['SALARY']
+
+# Drop rows where salary is missing
+missing_salary = y.isna()
+if missing_salary.any():
+    print(f"Dropping {missing_salary.sum()} rows with missing salary data")
+    X = X[~missing_salary]
+    y = y[~missing_salary]
+
+# Define categorical and numerical features
+categorical_features = ['STATE_NAME', 'TITLE_NAME']  # Removed REMOTE_TYPE_NAME since it's not in X
+numerical_features = ['MIN_YEARS_EXPERIENCE', 'MAX_YEARS_EXPERIENCE'] + [f'SKILL_{s}' for s in top_skills]
+
+# Preprocessor with imputation for missing values
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features),
+        ('num', SimpleImputer(strategy='median'), numerical_features)
+    ]
+)
+
+# Apply preprocessing
+X_processed = preprocessor.fit_transform(X)
+
+# Now split and train
+model = LinearRegression()
+X_train, X_test, y_train, y_test = train_test_split(X_processed, y, test_size=0.3, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+# Evaluate
+rmse = mean_squared_error(y_test, y_pred, squared=False)
+r2 = r2_score(y_test, y_pred)
+print(f"RMSE: {rmse}, R²: {r2}")
+```
+## Actual vs. Predicted Salaries
+
+```{python}
+#| eval: false
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(10, 6))
+sns.regplot(x=y_test, y=y_pred, scatter_kws={'alpha':0.5}, line_kws={'color':'red'})
+plt.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=1)  # Diagonal line
+plt.title("Actual vs. Predicted Salaries", pad=20)
+plt.xlabel("True Salary ($)")
+plt.ylabel("Predicted Salary ($)")
+plt.grid(True, linestyle='--', alpha=0.3)
+plt.tight_layout()
+plt.savefig('./figures/actual_vs_predicted.svg', bbox_inches='tight')
+plt.close()
+```
+<iframe src="./figures/actual_vs_predicted.svg" width="100%" height="500px" style="border:none;"></iframe>
+
+## Feature Importance
+
+```{python}
+#| eval: false
+# Get coefficients - limit to top/bottom 15 features
+N_FEATURES = 15
+feature_names = (preprocessor.named_transformers_['cat'].get_feature_names_out(categorical_features).tolist() 
+                + numerical_features)
+coefficients = pd.DataFrame({
+    'Feature': feature_names,
+    'Impact': model.coef_
+}).sort_values('Impact', ascending=False)
+
+# Combine top positive and negative impacts
+top_positive = coefficients.head(N_FEATURES//2)
+top_negative = coefficients.tail(N_FEATURES//2)
+plot_data = pd.concat([top_positive, top_negative]).sort_values('Impact')
+
+# Plotting
+plt.figure(figsize=(10, 8))
+bars = plt.barh(plot_data['Feature'], plot_data['Impact'], 
+                color=np.where(plot_data['Impact'] > 0, 'skyblue', 'salmon'))
+
+plt.title(f"Top {N_FEATURES} Salary Impact Features", pad=20)
+plt.xlabel("Salary Impact ($)")
+plt.grid(True, axis='x', linestyle='--', alpha=0.3)
+plt.tight_layout()
+plt.savefig('./figures/feature_importance.svg', bbox_inches='tight')
+plt.close()
+```
+<iframe src="./figures/feature_importance.svg" width="100%" height="500px" style="border:none;"></iframe>
+
+## Salary Distribution by State
+
+```{python}
+#| eval: false
+plt.figure(figsize=(12, 6))
+sns.boxplot(data=df.dropna(subset=['SALARY']), 
+            x='STATE_NAME', y='SALARY',
+            order=df.groupby('STATE_NAME')['SALARY'].median().sort_values(ascending=False).index)
+plt.title("Salary Distribution by State", pad=20)
+plt.xlabel("State")
+plt.ylabel("Salary ($)")
+plt.xticks(rotation=45)
+plt.grid(True, axis='y', linestyle='--', alpha=0.3)
+plt.tight_layout()
+plt.savefig('./figures/salary_by_state.svg', bbox_inches='tight')
+plt.close()
+```
+<iframe src="./figures/salary_by_state.svg" width="100%" height="500px" style="border:none;"></iframe>
+
+## Skills Premium
+
+```{python}
+#| eval: false
+skill_premium = df[[f'SKILL_{s}' for s in top_skills] + ['SALARY']]\
+               .groupby([f'SKILL_{s}' for s in top_skills])\
+               .mean().reset_index()
+
+plt.figure(figsize=(10, 6))
+sns.barplot(data=skill_premium.melt(id_vars='SALARY'), 
+            x='value', y='variable', palette='Blues_d')
+plt.title("Average Salary Premium for Skills", pad=20)
+plt.xlabel("Salary Premium ($)")
+plt.ylabel("Skill")
+plt.grid(True, axis='x', linestyle='--', alpha=0.3)
+plt.tight_layout()
+plt.savefig('./figures/skill_premium.svg', bbox_inches='tight')
+plt.close()
+```
+<iframe src="./figures/skill_premium.svg" width="100%" height="500px" style="border:none;"></iframe>
+
+# Model Summary
+**What was modeled:**
+A linear regression predicting job salaries based on job titles, locations, and required skills.
+
+**Why:**
+To identify which factors most influence salaries and help job seekers understand what drives compensation in their field.
+
+## Key Results
+### Model Performance:
+- **R² = 0.533**: The model explains 53% of salary variation.
+- **RMSE = 30,937**: Predictions are off by 31k on average.
+
+Implication: Useful for directional insights but insufficient for precise salary negotiations.
+
+### Top Salary Drivers:
+1. Job Title:
+    - Application Programming Managers and Bass Players command the lowest salaries (longest red bars).
+    - Pulmonology/Critical Care Physicians and Digital Transformation Managers  have the highest salaries (blue bars).
+
+2. Skills:
+    - Technical skills (e.g., SQL, Power BI and Data Mining) correlate with higher pay.
+
+3. Location:
+    - States like California and New York show wider salary ranges (box plot).
+
+## Features Used
+
+| Feature Type       | Examples                          | Impact                          |
+|--------------------|-----------------------------------|---------------------------------|
+| **Job Titles**     | Application Programming Managers  | +$200K+ for high-skill roles    |
+| **Skills**         | SQL, Power BI, Statistical Analysis | +$10K–$50K per skill           |
+| **Location**       | California vs. Alabama            | ±$40K regional differences      |
+| **Experience**     | `MIN_YEARS_EXPERIENCE`            | +$15K per year (approx.)        |
+
+## Implications for Job Seekers
+**Actionable Insights:**
+
+1. Skill Investments:
+    - Prioritize Power BI and SQL; they’re top salary boosters.
+    - Example: Adding Power BI could increase offers by ~$30K (based on coefficients).
+
+2. Location Choices:
+    - Salaries in California are 25% higher than Alabama but adjust for cost of living.
+
+3. Job Titles Matter:
+    - Negotiate title changes (e.g., "Manager" vs. "Associate") for higher brackets.
+
+**Limitations:**
+
+- Missing Data: 41,658 rows dropped due to missing salaries may bias results.
+- Non-Linear Effects: Roles like Physicians may have exponential pay scales not captured by linear models.
+
+
+
+
