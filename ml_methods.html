@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Multiple Linear Regression</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./unsupervised_learning.qmd"> 
+    <a class="nav-link" href="./unsupervised_learning.html"> 
 <span class="menu-text">Unsupervised Learning</span></a>
   </li>  
 </ul>
@@ -230,7 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Numerical: MIN_YEARS_EXPERIENCE, MAX_YEARS_EXPERIENCE</li>
 <li>Skills (binary flags): SKILLS_NAME (e.g., SQL (Programming Language), Power BI)</li>
 </ul>
-<div id="5c24c0d7" class="cell" data-execution_count="1">
+<div id="082d6cfd" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
@@ -294,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="actual-vs.-predicted-salaries" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="actual-vs.-predicted-salaries"><span class="header-section-number">1.2</span> Actual vs.&nbsp;Predicted Salaries</h2>
-<div id="77d2ae10" class="cell" data-execution_count="2">
+<div id="f135d858" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="feature-importance" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="feature-importance"><span class="header-section-number">1.3</span> Feature Importance</h2>
-<div id="05c21ce6" class="cell" data-execution_count="3">
+<div id="5f7f47e2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get coefficients - limit to top/bottom 15 features</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>N_FEATURES <span class="op">=</span> <span class="dv">15</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>feature_names <span class="op">=</span> (preprocessor.named_transformers_[<span class="st">'cat'</span>].get_feature_names_out(categorical_features).tolist() </span>
@@ -346,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="salary-distribution-by-state" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="salary-distribution-by-state"><span class="header-section-number">1.4</span> Salary Distribution by State</h2>
-<div id="67c5d87f" class="cell" data-execution_count="4">
+<div id="4a96c26d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>df.dropna(subset<span class="op">=</span>[<span class="st">'SALARY'</span>]), </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span><span class="st">'STATE_NAME'</span>, y<span class="op">=</span><span class="st">'SALARY'</span>,</span>
@@ -365,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="skills-premium" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="skills-premium"><span class="header-section-number">1.5</span> Skills Premium</h2>
-<div id="cc0f96d2" class="cell" data-execution_count="5">
+<div id="32924afe" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>skill_premium <span class="op">=</span> df[[<span class="ss">f'SKILL_</span><span class="sc">{</span>s<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> s <span class="kw">in</span> top_skills] <span class="op">+</span> [<span class="st">'SALARY'</span>]]<span class="op">\</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>               .groupby([<span class="ss">f'SKILL_</span><span class="sc">{</span>s<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> s <span class="kw">in</span> top_skills])<span class="op">\</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>               .mean().reset_index()</span>

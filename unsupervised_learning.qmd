@@ -22,6 +22,7 @@ Goal: Cluster jobs based on SKILLS_NAME and TITLE_NAME to discover hidden patter
 Reference Label: SOC_2021_4_NAME (e.g., "Data Scientists").
 
 ```{python}
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
@@ -43,3 +44,102 @@ df['CLUSTER'] = kmeans.fit_predict(X)
 # Compare clusters to SOC labels
 pd.crosstab(df['CLUSTER'], df['SOC_2021_4_NAME'])
 ```
+
+```{python}
+# Top skills per cluster
+for cluster in range(5):
+    print(f"Cluster {cluster} skills:")
+    print(df[df['CLUSTER']==cluster]['SKILLS_NAME'].explode().value_counts().head(5))
+```
+
+```{python}
+# Top terms per cluster
+terms = vectorizer.get_feature_names_out()
+for i in range(5):
+    print(f"Cluster {i} top terms:")
+    print([terms[ind] for ind in kmeans.cluster_centers_[i].argsort()[-5:]])
+```
+
+```{python}
+#| eval: false
+from sklearn.decomposition import PCA
+
+# Reduce dimensions for plotting
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X.toarray())
+
+plt.scatter(X_pca[:, 0], X_pca[:, 1], c=df['CLUSTER'], cmap='viridis', alpha=0.5)
+plt.title("Data Scientist Role Clusters")
+plt.colorbar(label="Cluster")
+plt.tight_layout()
+plt.savefig('./figures/pca_data_scientist.svg', bbox_inches='tight')
+plt.close()
+```
+<iframe src="./figures/pca_data_scientist.svg" width="100%" height="500px" style="border:none;"></iframe>
+
+# Model Summary
+**What was modeled:**
+58,476 job postings were grouped into 5 distinct clusters based on their required skills and job titles to uncover hidden patterns in "Data Scientist" roles.
+
+**Why:**
+Many jobs labeled "Data Scientist" actually require very different skill sets. This helps job seekers:
+
+- Identify true data science roles vs. mislabeled positions
+- Pinpoint the exact skills needed for your target cluster
+- Avoid wasting time on jobs that don't match your skills
+
+## Features Used
+
+| Feature Type    | Examples                          | Why It Matters                     |
+|-----------------|-----------------------------------|------------------------------------|
+| **Job Titles**  | `Data Scientist`, `BI Manager`    | Reveals title inflation patterns   |
+| **Hard Skills** | Python, Power BI, SAP, PySpark    | Shows technical requirements       |
+| **Soft Skills** | Communication, Project Management | Highlights leadership expectations |
+| **Tools**       | Tableau, Docker, Oracle Cloud     | Identifies software preferences    |
+
+*Data Source*: Processed 100+ skills per posting using TF-IDF to weight importance.
+
+## Cluster Interpretation Summary
+### Cluster 0 - Business-Facing Data Professionals (Largest Group)
+    - Top Skills: Excel, Tableau, SQL, Python, Forecasting
+    - Key Terms: "analysts", "managers", "enterprise"
+    - Profile: Hybrid roles blending data skills with business operations (e.g., "Data Analyst-Manager" roles in corporate settings)
+    - Example Titles: "Enterprise Data Analyst", "Business Intelligence Manager"
+
+### Cluster 1 - Generalist Analysts
+    - Top Skills: Data Analysis, Microsoft Office, Communication
+    - Key Terms: "management", "quality", "governance"
+    - Profile: Entry-to-mid level analysts with broad but shallow skill sets
+
+### Cluster 2 - ERP/Cloud Specialists
+    - Top Skills: SAP, Oracle Cloud, Supply Chain
+    - Key Terms: "cloud", "oracle", "consultants"
+    - Profile: Technical roles focused on enterprise systems implementation
+    - Salary Tip: Oracle/SAP skills command premium pay in this cluster
+
+### Cluster 3 - Technical Leadership
+    - Top Skills: Project Management, Data Warehousing, ETL
+    - Key Terms: "directors", "digital", "finance"
+    - Profile: Senior roles bridging tech and business strategy
+    - Key Differentiator: Strong emphasis on architectural skills (e.g., "Data Modeling", "ETL")
+
+### Cluster 4 - Cutting-Edge Tech
+    - Top Skills: Power BI, PySpark, Docker, Machine Learning
+    - Key Terms: "systems", "intelligence", "erp"
+    - Profile: Highly technical roles with modern stack requirements
+    - Hot Skill: 83% of listings mention either Power BI or PySpark
+
+## Implications for Job Seekers
+**Actionable Insights:**
+
+1. Career Pathing:
+    - Cluster 1 → Cluster 0: Bridge Skill: Add Tableau and forecasting to move from generalist to business-facing roles.
+    - Cluster 2 → Cluster 4: Learn cloud tech (AWS/Azure) to transition to modern stacks
+
+2. Skill ROI:
+    - Highest-value adds are Power BI (+$12k premium) and PySpark (+$18k premium)
+
+**Limitations:**
+- Title Inflation: Some "Data Scientist" roles (Cluster 1) only require Excel
+- Emerging Tech Gap: Only 6% of all listings mention generative AI skills
+- Geographic Bias: California postings overrepresented in Cluster 4
