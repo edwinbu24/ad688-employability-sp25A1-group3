@@ -140,6 +140,7 @@ Many jobs labeled "Data Scientist" actually require very different skill sets. T
     - Highest-value adds are Power BI (+$12k premium) and PySpark (+$18k premium)
 
 **Limitations:**
+
 - Title Inflation: Some "Data Scientist" roles (Cluster 1) only require Excel
 - Emerging Tech Gap: Only 6% of all listings mention generative AI skills
 - Geographic Bias: California postings overrepresented in Cluster 4
